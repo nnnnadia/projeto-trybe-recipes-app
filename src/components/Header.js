@@ -6,10 +6,14 @@ import searchIcon from '../images/searchIcon.svg';
 function Header({ pageTitle, showSearchIcon }) {
   return (
     <header>
-      <img src={ profileIcon } alt={ pageTitle } data-testid="profile-top-btn" />
+      <button type="button">
+        <img src={ profileIcon } alt={ pageTitle } data-testid="profile-top-btn" />
+      </button>
       <h1 data-testid="page-title">{pageTitle}</h1>
       {showSearchIcon && (
-        <img src={ searchIcon } alt={ pageTitle } data-testid="search-top-btn" />
+        <button type="button">
+          <img src={ searchIcon } alt={ pageTitle } data-testid="search-top-btn" />
+        </button>
       )}
     </header>
   );

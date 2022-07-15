@@ -4,6 +4,10 @@ import RecipesProvider from './context/RecipesProvider';
 import Login from './pages/Login';
 import Foods from './pages/Foods';
 import Drinks from './pages/Drinks';
+import FoodRecipe from './pages/FoodRecipe';
+import DrinkRecipe from './pages/DrinkRecipe';
+import FoodRecipeInProgress from './pages/FoodRecipeInProgress';
+import DrinkRecipeInProgress from './pages/DrinkRecipeInProgress';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
@@ -15,15 +19,15 @@ function App() {
     <RecipesProvider>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/foods" component={ Foods } />
-        <Route path="/drinks" component={ Drinks } />
-        <Route path="/foods/:id" component={ Foods } />
-        <Route path="/drinks/:id" component={ Drinks } />
-        <Route path="/foods/:id/in-progress" component={ Foods } />
-        <Route path="/drinks/:id/in-progress" component={ Drinks } />
-        <Route path="/profile" component={ Profile } />
-        <Route path="/done-recipes" component={ DoneRecipes } />
-        <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+        <Route exact path="/foods" component={ Foods } />
+        <Route exact path="/drinks" component={ Drinks } />
+        <Route exact path="/foods/:id" component={ DrinkRecipe } />
+        <Route exact path="/drinks/:id" component={ FoodRecipe } />
+        <Route exact path="/foods/:id/in-progress" component={ FoodRecipeInProgress } />
+        <Route exact path="/drinks/:id/in-progress" component={ DrinkRecipeInProgress } />
+        <Route exact path="/profile" component={ Profile } />
+        <Route exact path="/done-recipes" component={ DoneRecipes } />
+        <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
       </Switch>
     </RecipesProvider>
   );

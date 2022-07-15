@@ -40,7 +40,7 @@ describe('Testando o componente Header', () => {
 
     userEvent.click(searchIcon);
 
-    expect(screen.queryByTestId(dataTestIdSearch)).toBeInTheDocument();
+    expect(screen.getByTestId(dataTestIdSearch)).toBeInTheDocument();
 
     userEvent.click(searchIcon);
 

@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import RecipesContext from '../context/RecipesContext';
 
 function SearchBar() {
   const [searchInput, setSearchInput] = useState('');
   const [typeOfSearch, setTypeOfSearch] = useState('ingredient');
 
-  console.log(typeOfSearch);
+  const { setSearch } = useContext(RecipesContext);
+
+  const handleSearchButton = () => {
+    if (typeOfSearch === 'first-letter' && searchInput.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    } else {
+      setSearch({
+        text: searchInput,
+        option: typeOfSearch,
+      });
+    }
+  };
 
   return (
     <div>
@@ -17,7 +29,7 @@ function SearchBar() {
         onChange={ ({ target }) => setSearchInput(target.value) }
       />
       <div>
-        <label htmlFor="ingredient">
+        <label className="input-label" htmlFor="ingredient">
           <input
             data-testid="ingredient-search-radio"
             type="radio"
@@ -51,7 +63,13 @@ function SearchBar() {
           />
           Primeira letra
         </label>
-        <button data-testid="exec-search-btn" type="button">Buscar</button>
+        <button
+          data-testid="exec-search-btn"
+          type="button"
+          onClick={ handleSearchButton }
+        >
+          Buscar
+        </button>
       </div>
     </div>
   );

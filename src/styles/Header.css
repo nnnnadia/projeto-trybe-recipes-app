@@ -1,0 +1,38 @@
+.header-container {
+  background-color: #d33e3e;
+  border-bottom: 2px solid #bd3869;
+  color: #ffe6d7;
+  display: flex;
+  flex-direction: row;
+  font-family: Carter One , cursive;
+  font-weight: 900;
+  height: 10vh;
+  justify-content: space-around;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.page-tittle {
+  margin: auto;
+}
+
+.button-top {
+  background-color: #ffe6d7;
+  border: none;
+  border-radius: 15%;
+  height: 70%;
+  margin: auto;
+  width: 50px;
+}
+
+.button-top:hover {
+  background-color: #d8bebf;
+}
+
+.button-top:active {
+  background-color: #d9989a;
+}
+
+.img-top {
+  color: #e1c3c3;
+}

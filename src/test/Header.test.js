@@ -28,4 +28,22 @@ describe('Testando o componente Header', () => {
 
     expect(history.location.pathname).toBe('/profile');
   });
+
+  it('Verificando se a barra de pesquisa aparece ao clicar no botão', () => {
+    renderWithRouter(<Header pageTitle="Foods" showSearchIcon />);
+
+    const dataTestIdSearch = 'search-input';
+
+    const searchIcon = screen.getByTestId('search-top-btn');
+
+    expect(screen.queryByTestId(dataTestIdSearch)).not.toBeInTheDocument();
+
+    userEvent.click(searchIcon);
+
+    expect(screen.queryByTestId(dataTestIdSearch)).toBeInTheDocument();
+
+    userEvent.click(searchIcon);
+
+    expect(screen.queryByTestId(dataTestIdSearch)).not.toBeInTheDocument();
+  });
 });

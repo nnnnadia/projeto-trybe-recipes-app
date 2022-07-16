@@ -13,16 +13,24 @@ function RecipesProvider({ children }) {
 
   const history = useHistory();
 
-  const data = async (pathName, option, text) => {
-    const isFood = pathName === '/foods';
-    if (isFood && text.length > 0) {
-      const dataFood = await fetchFoods(option, text);
-      setRecipesData(dataFood.meals);
-    } else if (!isFood && text.length > 0) {
-      const dataDrink = await fetchDrinks(option, text);
-      setRecipesData(dataDrink.drinks);
-    }
-  };
+  // const { data, search, recipesData } = useContext(RecipesContext);
+
+  useEffect(() => {
+    const pathName = history.location.pathname;
+
+    const data = async (option, text) => {
+      const isFood = pathName === '/foods';
+      if (isFood && text.length > 0) {
+        const dataFood = await fetchFoods(option, text);
+        setRecipesData(dataFood.meals);
+      } else if (!isFood && text.length > 0) {
+        const dataDrink = await fetchDrinks(option, text);
+        setRecipesData(dataDrink.drinks);
+      }
+    };
+
+    data(search.option, search.text);
+  }, [search, history.location.pathname]);
 
   useEffect(() => {
     const checkResult = () => {
@@ -35,13 +43,13 @@ function RecipesProvider({ children }) {
     };
 
     checkResult();
-  }, [recipesData]);
+  }, [recipesData, history]);
 
   const contextValue = {
     search,
     setSearch,
     recipesData,
-    data,
+    // data,
   };
 
   return (

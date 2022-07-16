@@ -15,6 +15,8 @@ function SearchBar() {
         text: searchInput,
         option: typeOfSearch,
       });
+      setSearchInput('');
+      setTypeOfSearch('ingredient');
     }
   };
 
@@ -36,7 +38,7 @@ function SearchBar() {
             id="ingredient"
             name="search"
             value="ingredient"
-            defaultChecked
+            checked={ typeOfSearch === 'ingredient' }
             onChange={ ({ target }) => setTypeOfSearch(target.value) }
           />
           Ingrediente

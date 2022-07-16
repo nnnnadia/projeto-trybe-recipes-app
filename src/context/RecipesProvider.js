@@ -28,7 +28,7 @@ function RecipesProvider({ children }) {
     };
 
     data(search.option, search.text);
-  }, [search, history.location.pathname]);
+  }, [search]);
 
   useEffect(() => {
     const checkResult = () => {
@@ -53,6 +53,7 @@ function RecipesProvider({ children }) {
     search,
     setSearch,
     recipesData,
+    setRecipesData,
   };
 
   return (

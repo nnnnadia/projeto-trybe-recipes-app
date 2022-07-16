@@ -7,7 +7,6 @@ import RecipesContext from '../context/RecipesContext';
 
 function Foods() {
   const { recipesData } = useContext(RecipesContext);
-  console.log(recipesData);
 
   const history = useHistory();
 

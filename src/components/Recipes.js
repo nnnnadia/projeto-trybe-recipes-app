@@ -34,6 +34,7 @@ function Recipes() {
             image={ recipe.strMealThumb || recipe.strDrinkThumb }
             title={ recipe.strMeal || recipe.strDrink }
             index={ index }
+            id={ recipe.idMeal || recipe.idDrink }
           />
         </div>
       ))}

@@ -2,11 +2,13 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
-import Header from '../components/Header';
+import App from '../App';
 
 describe('Testando o componente Header', () => {
   it('Verificando os elementos na tela', () => {
-    renderWithRouter(<Header pageTitle="Foods" showSearchIcon />);
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/foods');
 
     const profileIcon = screen.getByTestId('profile-top-btn');
     const pageTitle = screen.getByTestId('page-title');
@@ -18,9 +20,9 @@ describe('Testando o componente Header', () => {
   });
 
   it('Verificando se o usuário e direcionado para a página de perfil', () => {
-    const { history } = renderWithRouter(
-      <Header pageTitle="Foods" showSearchIcon />,
-    );
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/foods');
 
     const profileIcon = screen.getByTestId('profile-top-btn');
 
@@ -30,7 +32,9 @@ describe('Testando o componente Header', () => {
   });
 
   it('Verificando se a barra de pesquisa aparece ao clicar no botão', () => {
-    renderWithRouter(<Header pageTitle="Foods" showSearchIcon />);
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/foods');
 
     const dataTestIdSearch = 'search-input';
 

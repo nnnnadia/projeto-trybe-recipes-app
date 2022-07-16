@@ -12,10 +12,10 @@ function RecipesProvider({ children }) {
 
   const data = async (pathName, option, text) => {
     const isFood = pathName === '/foods';
-    if (isFood) {
+    if (isFood && text.length > 0) {
       const dataFood = await fetchFoods(option, text);
       setRecipesData(dataFood.meals);
-    } else {
+    } else if (!isFood && text.length > 0) {
       const dataDrink = await fetchDrinks(option, text);
       setRecipesData(dataDrink.drinks);
     }

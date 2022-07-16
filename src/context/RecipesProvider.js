@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from './RecipesContext';
-import { fetchDrinks, fetchFoods } from '../data';
+import {
+  fetchCategoriesDrinks,
+  fetchCategoriesFoods,
+  fetchDrinks,
+  fetchFoods,
+} from '../data';
 
 function RecipesProvider({ children }) {
   const [search, setSearch] = useState({
@@ -12,6 +17,8 @@ function RecipesProvider({ children }) {
   const [recipesData, setRecipesData] = useState([]);
   const [allFoods, setAllFoods] = useState([]);
   const [allDrinks, setAllDrinks] = useState([]);
+  const [categoriesFood, setCategoriesFood] = useState([]);
+  const [categoriesDrink, setCategoriesDrink] = useState([]);
 
   const history = useHistory();
 
@@ -55,9 +62,13 @@ function RecipesProvider({ children }) {
     const initialFetch = async () => {
       const dataFood = await fetchFoods();
       const dataDrink = await fetchDrinks();
+      const allCategoriesFood = await fetchCategoriesFoods();
+      const allCategoriesDrink = await fetchCategoriesDrinks();
 
       setAllFoods(dataFood.meals);
       setAllDrinks(dataDrink.drinks);
+      setCategoriesFood(allCategoriesFood.meals);
+      setCategoriesDrink(allCategoriesDrink.drinks);
     };
 
     initialFetch();
@@ -70,6 +81,8 @@ function RecipesProvider({ children }) {
     setRecipesData,
     allFoods,
     allDrinks,
+    categoriesFood,
+    categoriesDrink,
   };
 
   return (

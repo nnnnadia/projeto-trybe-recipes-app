@@ -21,4 +21,13 @@ const fetchDrinks = async (searchOption = '', searchText = '') => {
   return result;
 };
 
-export default fetchDrinks;
+const fetchCategoriesDrinks = async () => {
+  const result = fetch(`${endpointBase}list.php?c=list`)
+    .then((response) => response.json())
+    .then((response) => response)
+    .catch((error) => error);
+
+  return result;
+};
+
+export { fetchDrinks, fetchCategoriesDrinks };

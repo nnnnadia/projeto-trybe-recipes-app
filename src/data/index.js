@@ -1,4 +1,4 @@
-import fetchDrinks from './fetchDrinks';
-import fetchFoods from './fetchFoods';
+import { fetchDrinks, fetchCategoriesDrinks } from './fetchDrinks';
+import { fetchFoods, fetchCategoriesFoods } from './fetchFoods';
 
-export { fetchDrinks, fetchFoods };
+export { fetchDrinks, fetchCategoriesDrinks, fetchFoods, fetchCategoriesFoods };

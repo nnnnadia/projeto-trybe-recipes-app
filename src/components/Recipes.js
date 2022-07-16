@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import CardRecipe from './CardRecipe';
+import CategoriesOptions from './CategoriesOptions';
 
 function Recipes() {
   const { recipesData, allFoods, allDrinks } = useContext(RecipesContext);
@@ -23,6 +24,7 @@ function Recipes() {
 
   return (
     <div>
+      <CategoriesOptions />
       {dataToShow().slice(0, MAX_ITEMS).map((recipe, index) => (
         <div key={ recipe.idMeal || recipe.idDrink }>
           <CardRecipe

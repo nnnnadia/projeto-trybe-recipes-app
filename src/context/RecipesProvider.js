@@ -10,6 +10,8 @@ function RecipesProvider({ children }) {
     option: 'ingredients',
   });
   const [recipesData, setRecipesData] = useState([]);
+  const [allFoods, setAllFoods] = useState([]);
+  const [allDrinks, setAllDrinks] = useState([]);
 
   const history = useHistory();
 
@@ -49,11 +51,25 @@ function RecipesProvider({ children }) {
     }
   }, [recipesData]);
 
+  useEffect(() => {
+    const initialFetch = async () => {
+      const dataFood = await fetchFoods();
+      const dataDrink = await fetchDrinks();
+
+      setAllFoods(dataFood.meals);
+      setAllDrinks(dataDrink.drinks);
+    };
+
+    initialFetch();
+  }, []);
+
   const contextValue = {
     search,
     setSearch,
     recipesData,
     setRecipesData,
+    allFoods,
+    allDrinks,
   };
 
   return (

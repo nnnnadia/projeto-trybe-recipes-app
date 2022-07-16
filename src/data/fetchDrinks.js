@@ -10,7 +10,7 @@ const endpointComplement = (searchOption) => {
   }
 };
 
-const fetchDrinks = async (searchOption, searchText) => {
+const fetchDrinks = async (searchOption = '', searchText = '') => {
   const result = fetch(
     endpointBase + endpointComplement(searchOption) + searchText,
   )

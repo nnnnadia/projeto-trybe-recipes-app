@@ -1,20 +1,38 @@
-import React from 'react';
-// import { useHistory } from 'react-router-dom';
-// import RecipesContext from '../context/RecipesContext';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import RecipesContext from '../context/RecipesContext';
+import CardRecipe from './CardRecipe';
 
 function Recipes() {
-  // const history = useHistory();
-  // const { data, search, recipesData } = useContext(RecipesContext);
+  const { recipesData, allFoods, allDrinks } = useContext(RecipesContext);
 
-  // console.log(recipesData);
+  const history = useHistory();
+  const isFood = history.location.pathname === '/foods';
 
-  // useEffect(() => {
-  //   const pathName = history.location.pathname;
-  //   data(pathName, search.option, search.text);
-  // }, [search]);
+  const MAX_ITEMS = 12;
+
+  const dataToShow = () => {
+    if (recipesData && recipesData.length > 1) {
+      return recipesData;
+    }
+    if (isFood) {
+      return allFoods;
+    }
+    return allDrinks;
+  };
 
   return (
-    <div>Recipes</div>
+    <div>
+      {dataToShow().slice(0, MAX_ITEMS).map((recipe, index) => (
+        <div key={ recipe.idMeal || recipe.idDrink }>
+          <CardRecipe
+            image={ recipe.strMealThumb || recipe.strDrinkThumb }
+            title={ recipe.strMeal || recipe.strDrink }
+            index={ index }
+          />
+        </div>
+      ))}
+    </div>
   );
 }
 

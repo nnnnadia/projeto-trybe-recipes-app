@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CardRecipe from '../components/CardRecipe';
 import RecipesContext from '../context/RecipesContext';
+import Recipes from '../components/Recipes';
 
 function Drinks() {
   const { recipesData } = useContext(RecipesContext);
@@ -17,7 +18,8 @@ function Drinks() {
   return (
     <div>
       <Header pageTitle="Drinks" showSearchIcon />
-      {!isFood
+      <Recipes />
+      {/* {!isFood
         && recipesData
         && recipesData.length > 1
         && recipesData.slice(0, MAX_ITEMS).map((recipe, index) => (
@@ -28,7 +30,7 @@ function Drinks() {
               index={ index }
             />
           </div>
-        ))}
+        ))} */}
       <Footer />
     </div>
   );

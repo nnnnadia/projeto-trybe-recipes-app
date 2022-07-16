@@ -6,6 +6,7 @@ function CategoriesOptions() {
   const {
     categoriesFood,
     categoriesDrink,
+    filterCategory,
     setFilterCategory } = useContext(RecipesContext);
 
   const history = useHistory();
@@ -19,6 +20,13 @@ function CategoriesOptions() {
     return categoriesDrink;
   };
 
+  const changeCategoryToogle = (category) => {
+    if (filterCategory !== category) {
+      return setFilterCategory(category);
+    }
+    return setFilterCategory('All');
+  };
+
   return (
     <div>
       {categoriesToShow()
@@ -28,7 +36,7 @@ function CategoriesOptions() {
             key={ strCategory }
             data-testid={ `${strCategory}-category-filter` }
             type="button"
-            onClick={ () => setFilterCategory(strCategory) }
+            onClick={ () => changeCategoryToogle(strCategory) }
           >
             {strCategory}
           </button>

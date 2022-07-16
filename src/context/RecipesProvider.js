@@ -108,6 +108,7 @@ function RecipesProvider({ children }) {
     allDrinks,
     categoriesFood,
     categoriesDrink,
+    filterCategory,
     setFilterCategory,
     filteredData,
   };

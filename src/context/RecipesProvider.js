@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import RecipesContext from './RecipesContext';
 import { fetchDrinks, fetchFoods } from '../data';
 
@@ -9,6 +10,8 @@ function RecipesProvider({ children }) {
     option: 'ingredients',
   });
   const [recipesData, setRecipesData] = useState([]);
+
+  const history = useHistory();
 
   const data = async (pathName, option, text) => {
     const isFood = pathName === '/foods';
@@ -20,6 +23,19 @@ function RecipesProvider({ children }) {
       setRecipesData(dataDrink.drinks);
     }
   };
+
+  useEffect(() => {
+    const checkResult = () => {
+      const isFood = history.location.pathname === '/foods';
+      if (recipesData.length === 1 && isFood) {
+        history.push(`/foods/${recipesData[0].idMeal}`);
+      } else if (!isFood && recipesData.length === 1) {
+        history.push(`/drinks/${recipesData[0].idDrink}`);
+      }
+    };
+
+    checkResult();
+  }, [recipesData]);
 
   const contextValue = {
     search,

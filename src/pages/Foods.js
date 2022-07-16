@@ -19,6 +19,7 @@ function Foods() {
     <div>
       <Header pageTitle="Foods" showSearchIcon />
       {isFood
+        && recipesData
         && recipesData.length > 1
         && recipesData.slice(0, MAX_ITEMS).map((recipe, index) => (
           <div key={ recipe.idMeal }>

@@ -7,7 +7,6 @@ import RecipesContext from '../context/RecipesContext';
 
 function Drinks() {
   const { recipesData } = useContext(RecipesContext);
-  console.log(recipesData);
 
   const history = useHistory();
 
@@ -19,6 +18,7 @@ function Drinks() {
     <div>
       <Header pageTitle="Drinks" showSearchIcon />
       {!isFood
+        && recipesData
         && recipesData.length > 1
         && recipesData.slice(0, MAX_ITEMS).map((recipe, index) => (
           <div key={ recipe.idDrink }>

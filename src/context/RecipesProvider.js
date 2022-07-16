@@ -13,8 +13,6 @@ function RecipesProvider({ children }) {
 
   const history = useHistory();
 
-  // const { data, search, recipesData } = useContext(RecipesContext);
-
   useEffect(() => {
     const pathName = history.location.pathname;
 
@@ -35,9 +33,9 @@ function RecipesProvider({ children }) {
   useEffect(() => {
     const checkResult = () => {
       const isFood = history.location.pathname === '/foods';
-      if (recipesData.length === 1 && isFood) {
+      if (recipesData && recipesData.length === 1 && isFood) {
         history.push(`/foods/${recipesData[0].idMeal}`);
-      } else if (!isFood && recipesData.length === 1) {
+      } else if (!isFood && recipesData && recipesData.length === 1) {
         history.push(`/drinks/${recipesData[0].idDrink}`);
       }
     };
@@ -45,11 +43,16 @@ function RecipesProvider({ children }) {
     checkResult();
   }, [recipesData, history]);
 
+  useEffect(() => {
+    if (!recipesData) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+  }, [recipesData]);
+
   const contextValue = {
     search,
     setSearch,
     recipesData,
-    // data,
   };
 
   return (

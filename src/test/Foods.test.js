@@ -112,14 +112,10 @@ describe('Testando página Foods', () => {
     });
   });
 
-
-
-
-
   it('Testando se a busca por categoria funciona', async () => {
     jest.spyOn(global, 'fetch');
 
-    const {debug} = renderWithRouter(<App />);
+    renderWithRouter(<App />);
 
     const email = screen.getByTestId(EMAIL_INPUT);
     const password = screen.getByTestId(PASSWORD_INPUT);

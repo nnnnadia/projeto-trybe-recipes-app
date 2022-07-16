@@ -1,4 +1,6 @@
 const endpointBase = 'https://www.themealdb.com/api/json/v1/1/';
+const endpointBaseCategory = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
+
 const endpointComplement = (searchOption) => {
   switch (searchOption) {
   case 'ingredient':
@@ -30,4 +32,13 @@ const fetchCategoriesFoods = async () => {
   return result;
 };
 
-export { fetchFoods, fetchCategoriesFoods };
+const fetchFoodsByCategory = async (category) => {
+  const result = fetch(`${endpointBaseCategory}${category}`)
+    .then((response) => response.json())
+    .then((response) => response)
+    .catch((error) => error);
+
+  return result;
+};
+
+export { fetchFoods, fetchCategoriesFoods, fetchFoodsByCategory };

@@ -6,7 +6,9 @@ import {
   fetchCategoriesDrinks,
   fetchCategoriesFoods,
   fetchDrinks,
+  fetchDrinksByCategory,
   fetchFoods,
+  fetchFoodsByCategory,
 } from '../data';
 
 function RecipesProvider({ children }) {
@@ -19,6 +21,8 @@ function RecipesProvider({ children }) {
   const [allDrinks, setAllDrinks] = useState([]);
   const [categoriesFood, setCategoriesFood] = useState([]);
   const [categoriesDrink, setCategoriesDrink] = useState([]);
+  const [filterCategory, setFilterCategory] = useState('All');
+  const [filteredData, setFilteredData] = useState([]);
 
   const history = useHistory();
 
@@ -74,6 +78,27 @@ function RecipesProvider({ children }) {
     initialFetch();
   }, []);
 
+  useEffect(() => {
+    const pathName = history.location.pathname;
+    const isFood = pathName === '/foods';
+
+    const filterFetch = async () => {
+      if (isFood && filterCategory !== 'All') {
+        const data = await fetchFoodsByCategory(filterCategory);
+        return setFilteredData(data.meals);
+      }
+
+      if (!isFood && filterCategory !== 'All') {
+        const data = await fetchDrinksByCategory(filterCategory);
+        return setFilteredData(data.drinks);
+      }
+
+      return setFilteredData([]);
+    };
+
+    filterFetch();
+  }, [filterCategory]);
+
   const contextValue = {
     search,
     setSearch,
@@ -83,6 +108,8 @@ function RecipesProvider({ children }) {
     allDrinks,
     categoriesFood,
     categoriesDrink,
+    setFilterCategory,
+    filteredData,
   };
 
   return (

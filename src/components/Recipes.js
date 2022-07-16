@@ -5,7 +5,7 @@ import CardRecipe from './CardRecipe';
 import CategoriesOptions from './CategoriesOptions';
 
 function Recipes() {
-  const { recipesData, allFoods, allDrinks } = useContext(RecipesContext);
+  const { recipesData, allFoods, allDrinks, filteredData } = useContext(RecipesContext);
 
   const history = useHistory();
   const isFood = history.location.pathname === '/foods';
@@ -13,6 +13,9 @@ function Recipes() {
   const MAX_ITEMS = 12;
 
   const dataToShow = () => {
+    if (filteredData.length > 0) {
+      return filteredData;
+    }
     if (recipesData && recipesData.length > 1) {
       return recipesData;
     }

@@ -3,7 +3,10 @@ import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 
 function CategoriesOptions() {
-  const { categoriesFood, categoriesDrink } = useContext(RecipesContext);
+  const {
+    categoriesFood,
+    categoriesDrink,
+    setFilterCategory } = useContext(RecipesContext);
 
   const history = useHistory();
 
@@ -25,10 +28,18 @@ function CategoriesOptions() {
             key={ strCategory }
             data-testid={ `${strCategory}-category-filter` }
             type="button"
+            onClick={ () => setFilterCategory(strCategory) }
           >
             {strCategory}
           </button>
         ))}
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ () => setFilterCategory('All') }
+      >
+        All
+      </button>
     </div>
   );
 }

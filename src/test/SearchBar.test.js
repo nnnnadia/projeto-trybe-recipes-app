@@ -89,7 +89,6 @@ describe('Testando página Foods', () => {
   });
 
   it('Testando se exibe alerta ao digitar mais de uma letra', async () => {
-    const fetch = jest.spyOn(global, 'fetch');
     const alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
     const { history } = renderWithRouter(<App />);
@@ -108,7 +107,6 @@ describe('Testando página Foods', () => {
     userEvent.click(radioFirstLetter);
     userEvent.click(searchButton);
 
-    expect(fetch).not.toHaveBeenCalled();
     expect(alert).toHaveBeenCalledWith(
       'Your search must have only 1 (one) character',
     );
@@ -191,7 +189,6 @@ describe('Testando página drinks', () => {
   });
 
   it('Testando se exibe alerta ao digitar mais de uma letra', async () => {
-    const fetch = jest.spyOn(global, 'fetch');
     const alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
     const { history } = renderWithRouter(<App />);
@@ -210,7 +207,6 @@ describe('Testando página drinks', () => {
     userEvent.click(radioFirstLetter);
     userEvent.click(searchButton);
 
-    expect(fetch).not.toHaveBeenCalled();
     expect(alert).toHaveBeenCalledWith(
       'Your search must have only 1 (one) character',
     );

@@ -4,13 +4,10 @@ import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
 import App from '../App';
 
-const EMAIL = 'trybe@teste.com';
-
 describe('Testando página Profile', () => {
   it('Testando se os elementos são renderizados corretamente', () => {
     const { history } = renderWithRouter(<App />);
 
-    localStorage.setItem('user', JSON.stringify({ email: EMAIL }));
     history.push('/profile');
 
     const profileButton = screen.getByTestId('profile-top-btn');
@@ -35,7 +32,6 @@ describe('Testando página Profile', () => {
   it('Testando se ao clicar em Done Recipes é redirecionado corretamente', () => {
     const { history } = renderWithRouter(<App />);
 
-    localStorage.setItem('user', JSON.stringify({ email: EMAIL }));
     history.push('/profile');
 
     const doneButton = screen.getByTestId('profile-done-btn');
@@ -48,7 +44,6 @@ describe('Testando página Profile', () => {
   it('Testando se ao clicar em Favorite Recipes é redirecionado corretamente', () => {
     const { history } = renderWithRouter(<App />);
 
-    localStorage.setItem('user', JSON.stringify({ email: EMAIL }));
     history.push('/profile');
 
     const favoriteButton = screen.getByTestId('profile-favorite-btn');
@@ -61,7 +56,6 @@ describe('Testando página Profile', () => {
   it('Testando se ao clicar em Logout é redirecionado e o localStorage é limpo', () => {
     const { history } = renderWithRouter(<App />);
 
-    localStorage.setItem('user', JSON.stringify({ email: EMAIL }));
     history.push('/profile');
 
     const logoutButton = screen.getByTestId('profile-logout-btn');

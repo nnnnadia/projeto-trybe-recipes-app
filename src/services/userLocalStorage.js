@@ -2,9 +2,7 @@
 //   localStorage.setItem('user', JSON.stringify({ email: '' }));
 // }
 
-export const readStorageUserData = () => {
-  JSON.parse(localStorage.getItem('user'));
-};
+export const readStorageUserData = () => JSON.parse(localStorage.getItem('user'));
 
 export const saveStorageUserData = (email) => {
   localStorage.setItem('user', JSON.stringify({ email }));

@@ -37,6 +37,8 @@ function RecipesProvider({ children }) {
       } else if (!isFood && text.length > 0) {
         const dataDrink = await fetchDrinks(option, text);
         setRecipesData(dataDrink.drinks);
+      } else {
+        setRecipesData([]);
       }
     };
 

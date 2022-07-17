@@ -9,3 +9,7 @@ export const saveStorageUserData = (email) => {
   localStorage.setItem('mealsToken', 1);
   localStorage.setItem('cocktailsToken', 1);
 };
+
+export const clearLocalStorage = () => {
+  localStorage.clear();
+};

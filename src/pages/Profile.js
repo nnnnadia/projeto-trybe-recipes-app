@@ -15,13 +15,13 @@ function Profile() {
       <Header pageTitle="Profile" showSearchIcon={ false } />
       <h4 data-testid="profile-email">{email}</h4>
       <button type="button" data-testid="profile-done-btn">
-        Receitas feitas
+        Done Recipes
       </button>
       <button type="button" data-testid="profile-favorite-btn">
-        Receitas favoritas
+        Favorite Recipes
       </button>
       <button type="button" data-testid="profile-logout-btn">
-        Sair
+        Logout
       </button>
       <Footer />
     </div>

@@ -22,6 +22,7 @@ describe('Testando o componente Header', () => {
   it('Verificando se o usuário e direcionado para a página de perfil', () => {
     const { history } = renderWithRouter(<App />);
 
+    localStorage.setItem('user', JSON.stringify({ email: 'trybe@teste.com' }));
     history.push('/foods');
 
     const profileIcon = screen.getByTestId('profile-top-btn');

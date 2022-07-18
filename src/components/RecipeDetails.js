@@ -7,7 +7,9 @@ import { fetchDetailsDrink, fetchDetailsFood } from '../data';
 import {
   readStorageDoneRecipes,
   readStorageFavoriteRecipes,
+  readStorageInProgressRecipes,
   saveStorageFavoriteRecipes,
+  saveStorageInProgressRecipes,
 } from '../services/recipesLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -18,14 +20,13 @@ function RecipeDetails() {
   const [details, setDetails] = useState({});
   const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [inProgress, setInProgress] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const history = useHistory();
   const isFood = history.location.pathname.includes('/food');
 
   const { id } = useParams();
-
-  console.log(details);
 
   useEffect(() => {
     const getDetails = async () => {
@@ -53,9 +54,29 @@ function RecipeDetails() {
   useEffect(() => {
     const favorites = readStorageFavoriteRecipes();
 
+    const progress = readStorageInProgressRecipes();
+    const progressCocktailsIds = Object.keys(progress.cocktails);
+    const progressMealsIds = Object.keys(progress.meals);
+
     const checkFavorite = favorites.some((favorite) => favorite.id === id);
     if (checkFavorite) {
       setIsFavorite(true);
+    }
+
+    if (isFood) {
+      const checkProgressFood = progressMealsIds.some(
+        (idMeal) => idMeal === id,
+      );
+      if (checkProgressFood) {
+        setInProgress(true);
+      }
+    } else {
+      const checkProgressDrink = progressCocktailsIds.some(
+        (idDrink) => idDrink === id,
+      );
+      if (checkProgressDrink) {
+        setInProgress(true);
+      }
     }
   }, []);
 
@@ -70,24 +91,36 @@ function RecipeDetails() {
 
   const handlePush = () => {
     if (isFood) {
-      history.push(`/foods/${id}/in-progress`);
-    } else {
-      history.push(`/drinks/${id}/in-progress`);
+      saveStorageInProgressRecipes({ [id]: [] }, 'cocktails');
     }
+    // if (isFood) {
+    //   history.push(`/foods/${id}/in-progress`);
+    // } else {
+    //   history.push(`/drinks/${id}/in-progress`);
+    // }
   };
 
   const setFavoritesRecipes = () => {
-    const favoriteObj = {
-      id: details.idMeal || details.idDrink,
-      type: isFood ? 'food' : 'drink',
-      nationality: details.strArea || '',
-      category: details.strCategory || '',
-      alcoholicOrNot: details.strAlcoholic || '',
-      name: details.strMeal || details.strDrink,
-      image: details.strMealThumb || details.strDrinkThumb,
-    };
+    const favorites = readStorageFavoriteRecipes();
 
-    saveStorageFavoriteRecipes(favoriteObj);
+    const checkFavorite = favorites.some((favorite) => favorite.id === id);
+    if (!checkFavorite) {
+      setIsFavorite(true);
+      const favoriteObj = {
+        id: details.idMeal || details.idDrink,
+        type: isFood ? 'food' : 'drink',
+        nationality: details.strArea || '',
+        category: details.strCategory || '',
+        alcoholicOrNot: details.strAlcoholic || '',
+        name: details.strMeal || details.strDrink,
+        image: details.strMealThumb || details.strDrinkThumb,
+      };
+      saveStorageFavoriteRecipes(favoriteObj);
+    } else {
+      setIsFavorite(false);
+      const removeFavorite = favorites.filter((favorite) => favorite.id !== id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeFavorite));
+    }
   };
 
   const clickShare = () => {
@@ -110,14 +143,19 @@ function RecipeDetails() {
       <button type="button" data-testid="share-btn" onClick={ clickShare }>
         <img src={ shareIcon } alt="compartilhar" />
       </button>
-      <button
-        type="button"
-        onClick={ setFavoritesRecipes }
-      >
+      <button type="button" onClick={ setFavoritesRecipes }>
         {isFavorite ? (
-          <img src={ blackHeartIcon } alt="favoritar" data-testid="favorite-btn" />
+          <img
+            src={ blackHeartIcon }
+            alt="favoritar"
+            data-testid="favorite-btn"
+          />
         ) : (
-          <img src={ whiteHeartIcon } alt="favoritar" data-testid="favorite-btn" />
+          <img
+            src={ whiteHeartIcon }
+            alt="favoritar"
+            data-testid="favorite-btn"
+          />
         )}
       </button>
       {copied && <span>Link copied!</span>}
@@ -147,7 +185,7 @@ function RecipeDetails() {
           data-testid="start-recipe-btn"
           onClick={ handlePush }
         >
-          Start Recipe
+          {inProgress ? 'Continue Recipe' : 'Start Recipe'}
         </button>
       )}
     </div>

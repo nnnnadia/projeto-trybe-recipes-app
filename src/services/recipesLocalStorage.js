@@ -34,15 +34,54 @@ export const readStorageInProgressRecipes = () => {
 };
 
 export const saveStorageInProgressRecipes = (recipe, key) => {
+  // if (!localStorage.getItem('inProgressRecipes')) {
+  //   localStorage.setItem(
+  //     'inProgressRecipes',
+  //     JSON.stringify({ [key]: recipe }),
+  //   );
+  // } else {
+  //   const oldData = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   const newData = { ...oldData, [key]: { ...oldData[key], recipe } };
+  //   const newData = { ...oldData.cocktails, [key]: { ...oldData[key], recipe } };
+  //   localStorage.setItem('inProgressRecipes', JSON.stringify(newData));
+  // }
   if (!localStorage.getItem('inProgressRecipes')) {
-    localStorage.setItem(
-      'inProgressRecipes',
-      JSON.stringify({ [key]: recipe }),
-    );
+    if (key === 'meals') {
+      const a = {
+        cocktails: {},
+        meals: { recipe },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(a));
+    } else {
+      const a = {
+        cocktails: { recipe },
+        meals: {},
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(a));
+    }
   } else {
     const oldData = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const newData = { ...oldData, [key]: { ...oldData[key], recipe } };
-    localStorage.setItem('inProgressRecipes', JSON.stringify(newData));
+    if (key === 'meals') {
+      const a = {
+        cocktails: {
+          ...oldData.cocktails,
+        },
+        meals: {
+          ...oldData.meals, recipe,
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(a));
+    } else {
+      const a = {
+        cocktails: {
+          ...oldData.cocktails, recipe,
+        },
+        meals: {
+          ...oldData.meals,
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(a));
+    }
   }
 };
 

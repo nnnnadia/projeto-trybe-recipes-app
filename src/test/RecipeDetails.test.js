@@ -2,6 +2,7 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
+// import clipboardCopy from 'clipboard-copy';
 import App from '../App';
 
 const EMAIL_INPUT = 'email-input';
@@ -35,7 +36,9 @@ describe('Testando página de RecipeDetails', () => {
       { timeout: 4000 },
     );
 
-    const firstIngredient = await screen.findByTestId('0-ingredient-name-and-measure');
+    const firstIngredient = await screen.findByTestId(
+      '0-ingredient-name-and-measure',
+    );
     const recipeImg = screen.getByTestId('recipe-photo');
     const buttonShare = screen.getByTestId('share-btn');
     const buttonFavorites = screen.getByTestId('favorite-btn');
@@ -86,7 +89,9 @@ describe('Testando página de RecipeDetails', () => {
       { timeout: 4000 },
     );
 
-    const firstIngredient = await screen.findByTestId('0-ingredient-name-and-measure');
+    const firstIngredient = await screen.findByTestId(
+      '0-ingredient-name-and-measure',
+    );
     const recipeImg = screen.getByTestId('recipe-photo');
     const recipeTitle = screen.getByTestId('recipe-title');
     const buttonShare = screen.getByTestId('share-btn');
@@ -109,9 +114,11 @@ describe('Testando página de RecipeDetails', () => {
     expect(startButton).toBeInTheDocument();
   });
 
-  it(`Testando se ao clicar no  botão Share 
+  it.only(`Testando se ao clicar no  botão Share 
      a mensagem "Link copied!" é renderizada`, async () => {
     jest.spyOn(global, 'fetch');
+    document.execCommand = jest.fn();
+
     renderWithRouter(<App />);
 
     const email = screen.getByTestId(EMAIL_INPUT);
@@ -123,17 +130,29 @@ describe('Testando página de RecipeDetails', () => {
 
     userEvent.click(button);
 
+    await waitFor(
+      () => {
+        const h3Recipe = screen.queryByRole('heading', {
+          name: /corba/i,
+        });
+        expect(h3Recipe).toBeInTheDocument();
+        userEvent.click(h3Recipe);
+      },
+      { timeout: 4000 },
+    );
+
+    // debug();
+    // const copy = 'http://localhost:3000/foods/52977';
+
     const buttonShare = screen.getByTestId('share-btn');
+    expect(buttonShare).toBeInTheDocument();
+    // userEvent.click(buttonShare);
+    // expect(clipboardCopy).toBe(copy)
 
-    userEvent.click(buttonShare);
-
-    const h3Recipe = screen.getByText(/Link copied/i);
-
-    expect(h3Recipe).toBeInTheDocument();
-
-    await waitFor(() => {
-      const MENSSEGER = screen.queryByText(/Link copied/i);
-      expect(MENSSEGER).toBeInTheDocument();
-    });
+  //   await waitFor(() => {
+  //     expect(document.execCommand).toHaveBeenCalledWith('copy');
+  //     const MENSSEGER = screen.queryByText(/Link copied/i);
+  //     expect(MENSSEGER).toBeInTheDocument();
+  //   });
   });
 });

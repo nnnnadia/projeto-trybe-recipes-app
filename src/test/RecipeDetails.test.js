@@ -126,8 +126,12 @@ describe('Testando página de RecipeDetails', () => {
     const buttonShare = screen.getByTestId('share-btn');
 
     userEvent.click(buttonShare);
-    
-    waitFor (() => {
+
+    const h3Recipe = screen.getByText(/Link copied/i);
+
+    expect(h3Recipe).toBeInTheDocument();
+
+    await waitFor(() => {
       const MENSSEGER = screen.queryByText(/Link copied/i);
       expect(MENSSEGER).toBeInTheDocument();
     });

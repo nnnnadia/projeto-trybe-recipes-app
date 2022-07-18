@@ -37,6 +37,8 @@ describe('Testando página de RecipeDetails', () => {
 
     const firstIngredient = await screen.findByTestId('0-ingredient-name-and-measure');
     const recipeImg = screen.getByTestId('recipe-photo');
+    const buttonShare = screen.getByTestId('share-btn');
+    const buttonFavorites = screen.getByTestId('favorite-btn');
     const recipeTitle = screen.getByTestId('recipe-title');
     const recipeCategory = screen.getByTestId('recipe-category');
     const ingredients = screen.getByRole('list');
@@ -47,6 +49,8 @@ describe('Testando página de RecipeDetails', () => {
 
     expect(firstIngredient).toBeInTheDocument();
     expect(recipeImg).toBeInTheDocument();
+    expect(buttonShare).toBeInTheDocument();
+    expect(buttonFavorites).toBeInTheDocument();
     expect(recipeTitle).toBeInTheDocument();
     expect(recipeCategory).toBeInTheDocument();
     expect(ingredients).toBeInTheDocument();
@@ -85,6 +89,8 @@ describe('Testando página de RecipeDetails', () => {
     const firstIngredient = await screen.findByTestId('0-ingredient-name-and-measure');
     const recipeImg = screen.getByTestId('recipe-photo');
     const recipeTitle = screen.getByTestId('recipe-title');
+    const buttonShare = screen.getByTestId('share-btn');
+    const buttonFavorites = screen.getByTestId('favorite-btn');
     const recipeCategory = screen.getByTestId('recipe-category');
     const ingredients = screen.getByRole('list');
     const instructions = screen.getByTestId('instructions');
@@ -93,11 +99,37 @@ describe('Testando página de RecipeDetails', () => {
 
     expect(firstIngredient).toBeInTheDocument();
     expect(recipeImg).toBeInTheDocument();
+    expect(buttonShare).toBeInTheDocument();
+    expect(buttonFavorites).toBeInTheDocument();
     expect(recipeTitle).toBeInTheDocument();
     expect(recipeCategory).toBeInTheDocument();
     expect(ingredients).toBeInTheDocument();
     expect(instructions).toBeInTheDocument();
     expect(recomendations).toHaveLength(SIX);
     expect(startButton).toBeInTheDocument();
+  });
+
+  it(`Testando se ao clicar no  botão Share 
+     a mensagem "Link copied!" é renderizada`, async () => {
+    jest.spyOn(global, 'fetch');
+    renderWithRouter(<App />);
+
+    const email = screen.getByTestId(EMAIL_INPUT);
+    const password = screen.getByTestId(PASSWORD_INPUT);
+    const button = screen.getByTestId(LOGIN_SUBMIT_BTN);
+
+    userEvent.type(email, EMAIL);
+    userEvent.type(password, '1234567');
+
+    userEvent.click(button);
+
+    const buttonShare = screen.getByTestId('share-btn');
+
+    userEvent.click(buttonShare);
+    
+    waitFor (() => {
+      const MENSSEGER = screen.queryByText(/Link copied/i);
+      expect(MENSSEGER).toBeInTheDocument();
+    });
   });
 });

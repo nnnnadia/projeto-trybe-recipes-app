@@ -132,7 +132,7 @@ describe('Testando página Foods', () => {
       );
 
       expect(screen.getByTestId('Beef-category-filter')).toBeInTheDocument();
-    }, { timeout: 2000 });
+    }, { timeout: 4000 });
 
     const beefButton = screen.getByTestId('Beef-category-filter');
     const breakfastButton = screen.getByTestId('Breakfast-category-filter');

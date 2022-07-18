@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from './RecipesContext';
-import { fetchDrinks, fetchFoods } from '../data';
+import {
+  fetchCategoriesDrinks,
+  fetchCategoriesFoods,
+  fetchDrinks,
+  fetchDrinksByCategory,
+  fetchFoods,
+  fetchFoodsByCategory,
+} from '../data';
 
 function RecipesProvider({ children }) {
   const [search, setSearch] = useState({
@@ -10,6 +17,12 @@ function RecipesProvider({ children }) {
     option: 'ingredients',
   });
   const [recipesData, setRecipesData] = useState([]);
+  const [allFoods, setAllFoods] = useState([]);
+  const [allDrinks, setAllDrinks] = useState([]);
+  const [categoriesFood, setCategoriesFood] = useState([]);
+  const [categoriesDrink, setCategoriesDrink] = useState([]);
+  const [filterCategory, setFilterCategory] = useState('All');
+  const [filteredData, setFilteredData] = useState([]);
 
   const history = useHistory();
 
@@ -49,11 +62,55 @@ function RecipesProvider({ children }) {
     }
   }, [recipesData]);
 
+  useEffect(() => {
+    const initialFetch = async () => {
+      const dataFood = await fetchFoods();
+      const dataDrink = await fetchDrinks();
+      const allCategoriesFood = await fetchCategoriesFoods();
+      const allCategoriesDrink = await fetchCategoriesDrinks();
+
+      setAllFoods(dataFood.meals);
+      setAllDrinks(dataDrink.drinks);
+      setCategoriesFood(allCategoriesFood.meals);
+      setCategoriesDrink(allCategoriesDrink.drinks);
+    };
+
+    initialFetch();
+  }, []);
+
+  useEffect(() => {
+    const pathName = history.location.pathname;
+    const isFood = pathName === '/foods';
+
+    const filterFetch = async () => {
+      if (isFood && filterCategory !== 'All') {
+        const data = await fetchFoodsByCategory(filterCategory);
+        return setFilteredData(data.meals);
+      }
+
+      if (!isFood && filterCategory !== 'All') {
+        const data = await fetchDrinksByCategory(filterCategory);
+        return setFilteredData(data.drinks);
+      }
+
+      return setFilteredData([]);
+    };
+
+    filterFetch();
+  }, [filterCategory]);
+
   const contextValue = {
     search,
     setSearch,
     recipesData,
     setRecipesData,
+    allFoods,
+    allDrinks,
+    categoriesFood,
+    categoriesDrink,
+    filterCategory,
+    setFilterCategory,
+    filteredData,
   };
 
   return (

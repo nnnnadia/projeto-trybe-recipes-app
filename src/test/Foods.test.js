@@ -111,4 +111,57 @@ describe('Testando página Foods', () => {
       );
     });
   });
+
+  it('Testando se a busca por categoria funciona', async () => {
+    jest.spyOn(global, 'fetch');
+
+    renderWithRouter(<App />);
+
+    const email = screen.getByTestId(EMAIL_INPUT);
+    const password = screen.getByTestId(PASSWORD_INPUT);
+    const button = screen.getByTestId(LOGIN_SUBMIT_BTN);
+
+    userEvent.type(email, EMAIL);
+    userEvent.type(password, '1234567');
+
+    userEvent.click(button);
+
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith(
+        'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
+      );
+
+      expect(screen.getByTestId('Beef-category-filter')).toBeInTheDocument();
+    }, { timeout: 2000 });
+
+    const beefButton = screen.getByTestId('Beef-category-filter');
+    const breakfastButton = screen.getByTestId('Breakfast-category-filter');
+    const chickenButton = screen.getByTestId('Chicken-category-filter');
+    const desertButton = screen.getByTestId('Dessert-category-filter');
+    const goatButton = screen.getByTestId('Goat-category-filter');
+    const allButton = screen.getByTestId('All-category-filter');
+
+    userEvent.click(beefButton);
+    userEvent.click(breakfastButton);
+    userEvent.click(breakfastButton);
+    userEvent.click(chickenButton);
+    userEvent.click(desertButton);
+    userEvent.click(goatButton);
+    userEvent.click(allButton);
+    userEvent.click(beefButton);
+
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/filter.php?c=Beef');
+      expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/filter.php?c=Breakfast');
+      expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/filter.php?c=Chicken');
+      expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert');
+      expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/filter.php?c=Goat');
+    });
+
+    const firstRecipe = screen.getByTestId('1-recipe-card');
+    const corbaRecipe = screen.getByText('Corba');
+
+    expect(firstRecipe).toBeInTheDocument();
+    expect(corbaRecipe).toBeInTheDocument();
+  });
 });

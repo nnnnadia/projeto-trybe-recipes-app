@@ -8,11 +8,12 @@ import '../styles/Footer.css';
 function Footer() {
   const history = useHistory();
 
-  const { setRecipesData } = useContext(RecipesContext);
+  const { setRecipesData, setFilterCategory } = useContext(RecipesContext);
 
   const handleClick = (pathName) => {
     history.push(pathName);
     setRecipesData([]);
+    setFilterCategory('All');
   };
 
   return (

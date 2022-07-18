@@ -9,7 +9,6 @@ import {
   readStorageFavoriteRecipes,
   readStorageInProgressRecipes,
   saveStorageFavoriteRecipes,
-  saveStorageInProgressRecipes,
 } from '../services/recipesLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -54,16 +53,15 @@ function RecipeDetails() {
   useEffect(() => {
     const favorites = readStorageFavoriteRecipes();
 
-    const progress = readStorageInProgressRecipes();
-    const progressCocktailsIds = Object.keys(progress.cocktails);
-    const progressMealsIds = Object.keys(progress.meals);
-
     const checkFavorite = favorites.some((favorite) => favorite.id === id);
     if (checkFavorite) {
       setIsFavorite(true);
     }
 
+    const progress = readStorageInProgressRecipes();
+
     if (isFood) {
+      const progressMealsIds = Object.keys(progress.meals);
       const checkProgressFood = progressMealsIds.some(
         (idMeal) => idMeal === id,
       );
@@ -71,6 +69,7 @@ function RecipeDetails() {
         setInProgress(true);
       }
     } else {
+      const progressCocktailsIds = Object.keys(progress.cocktails);
       const checkProgressDrink = progressCocktailsIds.some(
         (idDrink) => idDrink === id,
       );
@@ -78,7 +77,7 @@ function RecipeDetails() {
         setInProgress(true);
       }
     }
-  }, []);
+  }, [id, isFood]);
 
   const editUrlVideo = () => {
     if (details.strYoutube) {
@@ -91,13 +90,10 @@ function RecipeDetails() {
 
   const handlePush = () => {
     if (isFood) {
-      saveStorageInProgressRecipes({ [id]: [] }, 'cocktails');
+      history.push(`/foods/${id}/in-progress`);
+    } else {
+      history.push(`/drinks/${id}/in-progress`);
     }
-    // if (isFood) {
-    //   history.push(`/foods/${id}/in-progress`);
-    // } else {
-    //   history.push(`/drinks/${id}/in-progress`);
-    // }
   };
 
   const setFavoritesRecipes = () => {

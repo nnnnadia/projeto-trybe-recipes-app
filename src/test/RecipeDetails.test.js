@@ -2,8 +2,16 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
-// import clipboardCopy from 'clipboard-copy';
 import App from '../App';
+
+const copy = require('clipboard-copy');
+
+jest.mock('clipboard-copy');
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: () => ({ id: '52768' }),
+  useRouteMatch: () => ({ path: '/foods/:id', params: { id: '52768' } }),
+}));
 
 const EMAIL_INPUT = 'email-input';
 const PASSWORD_INPUT = 'password-input';
@@ -114,7 +122,7 @@ describe('Testando página de RecipeDetails', () => {
     expect(startButton).toBeInTheDocument();
   });
 
-  it.only(`Testando se ao clicar no  botão Share 
+  it(`Testando se ao clicar no  botão Share 
      a mensagem "Link copied!" é renderizada`, async () => {
     jest.spyOn(global, 'fetch');
     document.execCommand = jest.fn();
@@ -146,13 +154,16 @@ describe('Testando página de RecipeDetails', () => {
 
     const buttonShare = screen.getByTestId('share-btn');
     expect(buttonShare).toBeInTheDocument();
-    // userEvent.click(buttonShare);
-    // expect(clipboardCopy).toBe(copy)
+    userEvent.click(buttonShare);
+    expect(copy).toHaveBeenCalled();
+
+    const mensage = screen.queryByText(/Link copied/i);
+    expect(mensage).toBeInTheDocument();
+  });
 
   //   await waitFor(() => {
   //     expect(document.execCommand).toHaveBeenCalledWith('copy');
   //     const MENSSEGER = screen.queryByText(/Link copied/i);
   //     expect(MENSSEGER).toBeInTheDocument();
   //   });
-  });
 });

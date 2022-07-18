@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import IngredientsList from './IngredientsList';
+import Recommended from './Recommended';
 import { fetchDetailsDrink, fetchDetailsFood } from '../data';
+import '../styles/RecipeDetails.css';
 
 function RecipeDetails() {
   const [details, setDetails] = useState({});
@@ -42,21 +44,28 @@ function RecipeDetails() {
         alt="Imagem da receita"
       />
       <h3 data-testid="recipe-title">{details.strMeal || details.strDrink}</h3>
-      <h4 data-testid="recipe-category">
+      <h5 data-testid="recipe-category">
         {isFood ? details.strCategory : details.strAlcoholic}
-      </h4>
+      </h5>
       <IngredientsList details={ details } />
+      <h4>Instructions</h4>
       <p data-testid="instructions">{details.strInstructions}</p>
       {isFood && (
-        <iframe
-          data-testid="video"
-          width="420"
-          height="315"
-          src={ editUrlVideo() }
-          title="Video no Youtube"
-        />
+        <>
+          <h4>Video</h4>
+          <iframe
+            data-testid="video"
+            width="420"
+            height="315"
+            src={ editUrlVideo() }
+            title="Video no Youtube"
+          />
+        </>
       )}
-      <p data-testid="0-recomendation-card">Recomendadas</p>
+      <Recommended />
+      <button className="fixarButton" type="button" data-testid="start-recipe-btn">
+        Start Recipe
+      </button>
     </div>
   );
 }

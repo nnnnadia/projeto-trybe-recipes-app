@@ -5,8 +5,6 @@ function IngredientsList({ details }) {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
 
-  console.log(details);
-
   useEffect(() => {
     const onlyIngredients = { ...details };
     const onlyMeasures = { ...details };
@@ -29,7 +27,7 @@ function IngredientsList({ details }) {
 
   return (
     <>
-      <h5>Ingredientes</h5>
+      <h4>Ingredients</h4>
       <ul>
         {ingredients
           .filter((ingredient) => ingredient && ingredient.length > 0)

@@ -7,7 +7,9 @@ function CategoriesOptions() {
     categoriesFood,
     categoriesDrink,
     filterCategory,
-    setFilterCategory } = useContext(RecipesContext);
+    setFilterCategory,
+    setSearch,
+  } = useContext(RecipesContext);
 
   const history = useHistory();
 
@@ -22,9 +24,18 @@ function CategoriesOptions() {
 
   const changeCategoryToogle = (category) => {
     if (filterCategory !== category) {
-      return setFilterCategory(category);
+      setFilterCategory(category);
+    } else {
+      setFilterCategory('All');
+      setSearch({
+        text: '',
+        option: 'ingredients',
+      });
     }
-    return setFilterCategory('All');
+  };
+
+  const showAll = () => {
+    setFilterCategory('All');
   };
 
   return (
@@ -41,11 +52,7 @@ function CategoriesOptions() {
             {strCategory}
           </button>
         ))}
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        onClick={ () => setFilterCategory('All') }
-      >
+      <button type="button" data-testid="All-category-filter" onClick={ showAll }>
         All
       </button>
     </div>

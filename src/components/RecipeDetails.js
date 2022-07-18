@@ -3,10 +3,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import IngredientsList from './IngredientsList';
 import Recommended from './Recommended';
 import { fetchDetailsDrink, fetchDetailsFood } from '../data';
+import { readStorageDoneRecipes } from '../services/recipesLocalStorage';
 import '../styles/RecipeDetails.css';
 
 function RecipeDetails() {
   const [details, setDetails] = useState({});
+  const [done, setDone] = useState(false);
 
   const history = useHistory();
   const isFood = history.location.pathname.includes('/food');
@@ -25,6 +27,15 @@ function RecipeDetails() {
     };
 
     getDetails();
+  }, []);
+
+  useEffect(() => {
+    const doneRecipes = readStorageDoneRecipes();
+    const finished = doneRecipes.some((recipe) => recipe.id === id);
+
+    if (finished) {
+      setDone(true);
+    }
   }, []);
 
   const editUrlVideo = () => {
@@ -63,9 +74,15 @@ function RecipeDetails() {
         </>
       )}
       <Recommended />
-      <button className="fixarButton" type="button" data-testid="start-recipe-btn">
-        Start Recipe
-      </button>
+      {!done && (
+        <button
+          className="fixarButton"
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          Start Recipe
+        </button>
+      )}
     </div>
   );
 }

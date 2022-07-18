@@ -1,0 +1,8 @@
+.scrollmenu {
+  display : flex;
+  overflow: auto;
+}
+
+.scrollmenu img {
+  max-width: 180px;
+}

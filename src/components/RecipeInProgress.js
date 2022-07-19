@@ -2,25 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
 import IngredientsList from './IngredientsList';
-import Recommended from './Recommended';
 import { fetchDetailsDrink, fetchDetailsFood } from '../data';
 import {
-  readStorageDoneRecipes,
   readStorageFavoriteRecipes,
   readStorageInProgressRecipes,
   saveStorageFavoriteRecipes,
+  saveStorageInProgressRecipes,
 } from '../services/recipesLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../styles/RecipeDetails.css';
 
-function RecipeDetails() {
+function RecipeInProgress() {
   const [details, setDetails] = useState({});
-  const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [inProgress, setInProgress] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [indexIngredients, setIndexIngredients] = useState([]);
+  const [disabled, setDisabled] = useState(true);
 
   const history = useHistory();
   const isFood = history.location.pathname.includes('/food');
@@ -42,11 +41,14 @@ function RecipeDetails() {
   }, []);
 
   useEffect(() => {
-    const doneRecipes = readStorageDoneRecipes();
-    const finished = doneRecipes.some((recipe) => recipe.id === id);
+    const inProgressLocalStorage = readStorageInProgressRecipes();
 
-    if (finished) {
-      setDone(true);
+    if (isFood && inProgressLocalStorage.meals[id]) {
+      setIndexIngredients(inProgressLocalStorage.meals[id]);
+    }
+
+    if (!isFood && inProgressLocalStorage.cocktails[id]) {
+      setIndexIngredients(inProgressLocalStorage.cocktails[id]);
     }
   }, []);
 
@@ -57,44 +59,36 @@ function RecipeDetails() {
     if (checkFavorite) {
       setIsFavorite(true);
     }
+  }, []);
 
-    const progress = readStorageInProgressRecipes();
-
+  useEffect(() => {
     if (isFood) {
-      const progressMealsIds = Object.keys(progress.meals);
-      const checkProgressFood = progressMealsIds.some(
-        (idMeal) => idMeal === id,
-      );
-      if (checkProgressFood) {
-        setInProgress(true);
-      }
+      saveStorageInProgressRecipes('meals', id, indexIngredients);
     } else {
-      const progressCocktailsIds = Object.keys(progress.cocktails);
-      const checkProgressDrink = progressCocktailsIds.some(
-        (idDrink) => idDrink === id,
-      );
-      if (checkProgressDrink) {
-        setInProgress(true);
+      saveStorageInProgressRecipes('cocktails', id, indexIngredients);
+    }
+
+    const ingredientsList = { ...details };
+
+    Object.keys(ingredientsList).forEach((key) => {
+      if (!key.includes('strIngredient')) {
+        delete ingredientsList[key];
       }
-    }
-  }, [id, isFood]);
+    });
 
-  const editUrlVideo = () => {
-    if (details.strYoutube) {
-      const initialUrl = details.strYoutube;
-      const edited = initialUrl.replace('watch?v=', 'embed/');
+    const ingredientsFiltered = Object.values(ingredientsList).filter(
+      (ingredient) => ingredient && ingredient.length > 0,
+    );
 
-      return edited;
-    }
-  };
-
-  const handlePush = () => {
-    if (isFood) {
-      history.push(`/foods/${id}/in-progress`);
+    if (
+      ingredientsFiltered.length > 0
+      && ingredientsFiltered.length === indexIngredients.length
+    ) {
+      setDisabled(false);
     } else {
-      history.push(`/drinks/${id}/in-progress`);
+      setDisabled(true);
     }
-  };
+  }, [indexIngredients]);
 
   const setFavoritesRecipes = () => {
     const favorites = readStorageFavoriteRecipes();
@@ -158,34 +152,24 @@ function RecipeDetails() {
       <h5 data-testid="recipe-category">
         {isFood ? details.strCategory : details.strAlcoholic}
       </h5>
-      <IngredientsList details={ details } inProgress={ false } />
+      <IngredientsList
+        details={ details }
+        indexIngredients={ indexIngredients }
+        setIndexIngredients={ setIndexIngredients }
+        inProgress
+      />
       <h4>Instructions</h4>
       <p data-testid="instructions">{details.strInstructions}</p>
-      {isFood && (
-        <>
-          <h4>Video</h4>
-          <iframe
-            data-testid="video"
-            width="420"
-            height="315"
-            src={ editUrlVideo() }
-            title="Video no Youtube"
-          />
-        </>
-      )}
-      <Recommended />
-      {!done && (
-        <button
-          className="fixarButton"
-          type="button"
-          data-testid="start-recipe-btn"
-          onClick={ handlePush }
-        >
-          {inProgress ? 'Continue Recipe' : 'Start Recipe'}
-        </button>
-      )}
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        disabled={ disabled }
+        onClick={ () => history.push('/done-recipes') }
+      >
+        Finish
+      </button>
     </div>
   );
 }
 
-export default RecipeDetails;
+export default RecipeInProgress;

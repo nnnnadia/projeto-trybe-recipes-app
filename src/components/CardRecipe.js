@@ -6,7 +6,20 @@ import { CardWithMargin } from '../styles/StyledComponents';
 
 function CardRecipe({ image, title, index, id, recomendation }) {
   const history = useHistory();
-  const isFood = history.location.pathname === '/foods';
+  const isFood = history.location.pathname.includes('/foods');
+
+  const goTo = () => {
+    if (recomendation) {
+      if (isFood) {
+        return `/drinks/${id}`;
+      }
+      return `/foods/${id}`;
+    }
+    if (isFood) {
+      return `/foods/${id}`;
+    }
+    return `/drinks/${id}`;
+  };
 
   return (
     <Link to={ isFood ? `/foods/${id}` : `/drinks/${id}` }>

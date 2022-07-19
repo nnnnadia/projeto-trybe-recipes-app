@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 
 function CardRecipe({ image, title, index, id, recomendation }) {
   const history = useHistory();
@@ -8,26 +9,36 @@ function CardRecipe({ image, title, index, id, recomendation }) {
 
   return (
     <Link to={ isFood ? `/foods/${id}` : `/drinks/${id}` }>
-      <div
+      <Card
         data-testid={
           recomendation ? `${index}-recomendation-card` : `${index}-recipe-card`
         }
+        sx={ { maxWidth: 345 } }
       >
-        <img
-          data-testid={
-            recomendation ? `${index}-recomendation-img` : `${index}-card-img`
-          }
-          src={ image }
-          alt={ title }
-        />
-        <h3
-          data-testid={
-            recomendation ? `${index}-recomendation-title` : `${index}-card-name`
-          }
-        >
-          {title}
-        </h3>
-      </div>
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            height="140"
+            image={ image }
+            alt={ title }
+            data-testid={
+              recomendation ? `${index}-recomendation-img` : `${index}-card-img`
+            }
+          />
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              data-testid={
+                recomendation ? `${index}-recomendation-title` : `${index}-card-name`
+              }
+            >
+              {title}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
     </Link>
   );
 }

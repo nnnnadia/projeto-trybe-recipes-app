@@ -1,5 +1,6 @@
 const endpointBase = 'https://www.thecocktaildb.com/api/json/v1/1/';
 const endpointBaseCategory = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
+const endpointBaseDetails = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 
 const endpointComplement = (searchOption) => {
   switch (searchOption) {
@@ -41,4 +42,18 @@ const fetchDrinksByCategory = async (category) => {
   return result;
 };
 
-export { fetchDrinks, fetchCategoriesDrinks, fetchDrinksByCategory };
+const fetchDetailsDrink = async (id) => {
+  const result = fetch(`${endpointBaseDetails}${id}`)
+    .then((response) => response.json())
+    .then((response) => response)
+    .catch((error) => error);
+
+  return result;
+};
+
+export {
+  fetchDrinks,
+  fetchCategoriesDrinks,
+  fetchDrinksByCategory,
+  fetchDetailsDrink,
+};

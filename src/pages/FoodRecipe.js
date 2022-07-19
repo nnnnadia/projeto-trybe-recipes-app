@@ -1,7 +1,8 @@
 import React from 'react';
+import RecipeDetails from '../components/RecipeDetails';
 
 function FoodRecipe() {
-  return <div>FoodRecipe</div>;
+  return <RecipeDetails />;
 }
 
 export default FoodRecipe;

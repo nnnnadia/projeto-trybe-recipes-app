@@ -1,7 +1,3 @@
-// if (!localStorage.getItem('user')) {
-//   localStorage.setItem('user', JSON.stringify({ email: '' }));
-// }
-
 export const readStorageUserData = () => {
   if (!localStorage.getItem('user')) {
     localStorage.setItem('user', JSON.stringify({ email: '' }));

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { AppBar, Grid, IconButton, Toolbar } from '@mui/material';
+import { AppBar, Grid, IconButton } from '@mui/material';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
-import HeaderTitle from '../styles/StyledComponents';
+import { HeaderTitle } from '../styles/StyledComponents';
 
 function Header({ pageTitle, showSearchIcon }) {
   const [showSearchBar, setShowSearchBar] = useState(false);

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+import { CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+import { CardWithMargin } from '../styles/StyledComponents';
 
 function CardRecipe({ image, title, index, id, recomendation }) {
   const history = useHistory();
@@ -9,7 +10,7 @@ function CardRecipe({ image, title, index, id, recomendation }) {
 
   return (
     <Link to={ isFood ? `/foods/${id}` : `/drinks/${id}` }>
-      <Card
+      <CardWithMargin
         data-testid={
           recomendation ? `${index}-recomendation-card` : `${index}-recipe-card`
         }
@@ -38,7 +39,7 @@ function CardRecipe({ image, title, index, id, recomendation }) {
             </Typography>
           </CardContent>
         </CardActionArea>
-      </Card>
+      </CardWithMargin>
     </Link>
   );
 }

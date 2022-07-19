@@ -1,7 +1,8 @@
-import { Button, ButtonGroup, Grid } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
+import { CategoriesOptionsGrid } from '../styles/StyledComponents';
 
 function CategoriesOptions() {
   const {
@@ -41,7 +42,7 @@ function CategoriesOptions() {
 
   return (
     <ButtonGroup variant="text" aria-label="text button group">
-      <Grid container wrap="nowrap">
+      <CategoriesOptionsGrid container justifyContent="center" wrap="wrap">
         {categoriesToShow()
           .slice(0, MAX_ITEMS)
           .map(({ strCategory }) => (
@@ -63,7 +64,7 @@ function CategoriesOptions() {
         >
           All
         </Button>
-      </Grid>
+      </CategoriesOptionsGrid>
     </ButtonGroup>
   );
 }

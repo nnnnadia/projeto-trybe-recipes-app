@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import CardRecipeDone from '../components/CardRecipeDone';
 import Header from '../components/Header';
 import SavedRecipesFilters from '../components/SavedRecipesFilters';
-import RecipesProvider from '../context/RecipesProvider';
+import RecipesContext from '../context/RecipesContext';
 
 function DoneRecipes() {
-  const { doneRecipes } = useContext(RecipesProvider);
+  const { doneRecipes } = useContext(RecipesContext);
   return (
     <div>
       <Header pageTitle="Done Recipes" showSearchIcon={ false } />

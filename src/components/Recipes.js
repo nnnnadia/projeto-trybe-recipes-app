@@ -28,16 +28,19 @@ function Recipes() {
   return (
     <div>
       <CategoriesOptions />
-      {dataToShow().slice(0, MAX_ITEMS).map((recipe, index) => (
-        <div key={ recipe.idMeal || recipe.idDrink }>
-          <CardRecipe
-            image={ recipe.strMealThumb || recipe.strDrinkThumb }
-            title={ recipe.strMeal || recipe.strDrink }
-            index={ index }
-            id={ recipe.idMeal || recipe.idDrink }
-          />
-        </div>
-      ))}
+      {dataToShow()
+        .slice(0, MAX_ITEMS)
+        .map((recipe, index) => (
+          <div key={ recipe.idMeal || recipe.idDrink }>
+            <CardRecipe
+              image={ recipe.strMealThumb || recipe.strDrinkThumb }
+              title={ recipe.strMeal || recipe.strDrink }
+              index={ index }
+              id={ recipe.idMeal || recipe.idDrink }
+              recomendation={ false }
+            />
+          </div>
+        ))}
     </div>
   );
 }

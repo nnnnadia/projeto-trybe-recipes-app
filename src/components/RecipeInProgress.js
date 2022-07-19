@@ -15,12 +15,13 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../styles/RecipeDetails.css';
 
-function RecipeDetails() {
+function RecipeInProgress() {
   const [details, setDetails] = useState({});
   const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
   const [inProgress, setInProgress] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  console.log(details);
 
   const history = useHistory();
   const isFood = history.location.pathname.includes('/food');
@@ -41,58 +42,12 @@ function RecipeDetails() {
     getDetails();
   }, []);
 
-  useEffect(() => {
-    const doneRecipes = readStorageDoneRecipes();
-    const finished = doneRecipes.some((recipe) => recipe.id === id);
-
-    if (finished) {
-      setDone(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    const favorites = readStorageFavoriteRecipes();
-
-    const checkFavorite = favorites.some((favorite) => favorite.id === id);
-    if (checkFavorite) {
-      setIsFavorite(true);
-    }
-
-    const progress = readStorageInProgressRecipes();
-
-    if (isFood) {
-      const progressMealsIds = Object.keys(progress.meals);
-      const checkProgressFood = progressMealsIds.some(
-        (idMeal) => idMeal === id,
-      );
-      if (checkProgressFood) {
-        setInProgress(true);
-      }
-    } else {
-      const progressCocktailsIds = Object.keys(progress.cocktails);
-      const checkProgressDrink = progressCocktailsIds.some(
-        (idDrink) => idDrink === id,
-      );
-      if (checkProgressDrink) {
-        setInProgress(true);
-      }
-    }
-  }, [id, isFood]);
-
   const editUrlVideo = () => {
     if (details.strYoutube) {
       const initialUrl = details.strYoutube;
       const edited = initialUrl.replace('watch?v=', 'embed/');
 
       return edited;
-    }
-  };
-
-  const handlePush = () => {
-    if (isFood) {
-      history.push(`/foods/${id}/in-progress`);
-    } else {
-      history.push(`/drinks/${id}/in-progress`);
     }
   };
 
@@ -116,6 +71,14 @@ function RecipeDetails() {
       setIsFavorite(false);
       const removeFavorite = favorites.filter((favorite) => favorite.id !== id);
       localStorage.setItem('favoriteRecipes', JSON.stringify(removeFavorite));
+    }
+  };
+
+  const handlePush = () => {
+    if (isFood) {
+      history.push(`/foods/${id}/in-progress`);
+    } else {
+      history.push(`/drinks/${id}/in-progress`);
     }
   };
 
@@ -158,10 +121,10 @@ function RecipeDetails() {
       <h5 data-testid="recipe-category">
         {isFood ? details.strCategory : details.strAlcoholic}
       </h5>
-      <IngredientsList details={ details } inProgress={ false } />
+      <IngredientsList details={ details } inProgress />
       <h4>Instructions</h4>
       <p data-testid="instructions">{details.strInstructions}</p>
-      {isFood && (
+      {/* {isFood && (
         <>
           <h4>Video</h4>
           <iframe
@@ -173,19 +136,17 @@ function RecipeDetails() {
           />
         </>
       )}
-      <Recommended />
-      {!done && (
-        <button
-          className="fixarButton"
-          type="button"
-          data-testid="start-recipe-btn"
-          onClick={ handlePush }
-        >
-          {inProgress ? 'Continue Recipe' : 'Start Recipe'}
-        </button>
-      )}
+      <Recommended /> */}
+      <button
+        // className="fixarButton"
+        type="button"
+        data-testid="finish-recipe-btn"
+        onClick={ handlePush }
+      >
+        Finish
+      </button>
     </div>
   );
 }
 
-export default RecipeDetails;
+export default RecipeInProgress;

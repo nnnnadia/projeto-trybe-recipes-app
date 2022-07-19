@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function IngredientsList({ details }) {
+function IngredientsList({ details, inProgress }) {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
 
@@ -28,26 +28,49 @@ function IngredientsList({ details }) {
   return (
     <>
       <h4>Ingredients</h4>
-      <ul>
-        {ingredients
-          .filter((ingredient) => ingredient && ingredient.length > 0)
-          .map((ingredient, index) => (
-            <li
-              key={ ingredient }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {measures[index] && measures[index].length > 0
-                ? `${measures[index]} - ${ingredient}`
-                : `${ingredient}`}
-            </li>
-          ))}
-      </ul>
+      {inProgress ? (
+        <>
+          {ingredients
+            .filter((ingredient) => ingredient && ingredient.length > 0)
+            .map((ingredient, index) => (
+              <div key={ ingredient }>
+                <label htmlFor={ ingredient }>
+                  <input
+                    data-testid={ `${index}-ingredient-step` }
+                    type="checkbox"
+                    id={ ingredient }
+                    value={ ingredient }
+                  />
+                  {measures[index] && measures[index].length > 0
+                    ? `${measures[index]} - ${ingredient}`
+                    : `${ingredient}`}
+                </label>
+              </div>
+            ))}
+        </>
+      ) : (
+        <ul>
+          {ingredients
+            .filter((ingredient) => ingredient && ingredient.length > 0)
+            .map((ingredient, index) => (
+              <li
+                key={ ingredient }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                {measures[index] && measures[index].length > 0
+                  ? `${measures[index]} - ${ingredient}`
+                  : `${ingredient}`}
+              </li>
+            ))}
+        </ul>
+      )}
     </>
   );
 }
 
 IngredientsList.propTypes = {
   details: PropTypes.shape().isRequired,
+  inProgress: PropTypes.bool.isRequired,
 };
 
 export default IngredientsList;

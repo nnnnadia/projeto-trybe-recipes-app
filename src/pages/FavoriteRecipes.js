@@ -10,7 +10,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../styles/DoneRecipes.css';
 
-function DoneRecipes() {
+function FavoriteRecipes() {
   const [copied, setCopied] = useState(false);
   const [favoritesRecipes, setFavoritesRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
@@ -136,4 +136,4 @@ function DoneRecipes() {
   );
 }
 
-export default DoneRecipes;
+export default FavoriteRecipes;

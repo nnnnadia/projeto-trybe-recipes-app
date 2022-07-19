@@ -1,20 +1,10 @@
 import clipboardCopy from 'clipboard-copy';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import { readStorageDoneRecipes } from '../services/recipesLocalStorage';
-
-// [{
-//   id: id-da-receita,
-//   type: comida-ou-bebida,
-//   nationality: nacionalidade-da-receita-ou-texto-vazio,
-//   category: categoria-da-receita-ou-texto-vazio,
-//   alcoholicOrNot: alcoholic-ou-non-alcoholic-ou-texto-vazio,
-//   name: nome-da-receita,
-//   image: imagem-da-receita,
-//   doneDate: quando-a-receita-foi-concluida,
-//   tags: array-de-tags-da-receita-ou-array-vazio
-// }]
+import '../styles/DoneRecipes.css';
 
 function DoneRecipes() {
   const [copied, setCopied] = useState(false);
@@ -35,6 +25,13 @@ function DoneRecipes() {
       setFilteredRecipes(doneFiltered);
     }
   }, [filter, doneRecipes]);
+
+  const goToDetails = (type, id) => {
+    if (type === 'food') {
+      return `/foods/${id}`;
+    }
+    return `/drinks/${id}`;
+  };
 
   const clickShare = (recipe) => {
     if (recipe.type === 'food') {
@@ -80,12 +77,15 @@ function DoneRecipes() {
         Drinks
       </button>
       {recipesToShow().map((recipe, index) => (
-        <div key={ recipe.id }>
-          <img
-            src={ recipe.image }
-            data-testid={ `${index}-horizontal-image` }
-            alt="Foto da receita"
-          />
+        <div key={ recipe.id } className="card-container">
+          <Link to={ () => goToDetails(recipe.type, recipe.id) }>
+            <img
+              src={ recipe.image }
+              data-testid={ `${index}-horizontal-image` }
+              alt="Foto da receita"
+            />
+            <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
+          </Link>
           <h5 data-testid={ `${index}-horizontal-top-text` }>
             {recipe.type === 'food'
               ? `${recipe.nationality} - ${recipe.category}`
@@ -94,7 +94,6 @@ function DoneRecipes() {
           <h5 data-testid={ `${index}-horizontal-done-date` }>
             {recipe.doneDate}
           </h5>
-          <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
           <button type="button" onClick={ () => clickShare(recipe) }>
             <img
               data-testid={ `${index}-horizontal-share-btn` }

@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
 import IngredientsList from './IngredientsList';
-import Recommended from './Recommended';
 import { fetchDetailsDrink, fetchDetailsFood } from '../data';
 import {
-  readStorageDoneRecipes,
   readStorageFavoriteRecipes,
   readStorageInProgressRecipes,
   saveStorageFavoriteRecipes,
+  saveStorageInProgressRecipes,
 } from '../services/recipesLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -17,11 +16,10 @@ import '../styles/RecipeDetails.css';
 
 function RecipeInProgress() {
   const [details, setDetails] = useState({});
-  const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [inProgress, setInProgress] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  console.log(details);
+  const [indexIngredients, setIndexIngredients] = useState([]);
+  const [disabled, setDisabled] = useState(true);
 
   const history = useHistory();
   const isFood = history.location.pathname.includes('/food');
@@ -42,14 +40,52 @@ function RecipeInProgress() {
     getDetails();
   }, []);
 
-  const editUrlVideo = () => {
-    if (details.strYoutube) {
-      const initialUrl = details.strYoutube;
-      const edited = initialUrl.replace('watch?v=', 'embed/');
+  useEffect(() => {
+    const inProgressLocalStorage = readStorageInProgressRecipes();
 
-      return edited;
+    if (isFood && inProgressLocalStorage.meals[id]) {
+      setIndexIngredients(inProgressLocalStorage.meals[id]);
     }
-  };
+
+    if (!isFood && inProgressLocalStorage.cocktails[id]) {
+      setIndexIngredients(inProgressLocalStorage.cocktails[id]);
+    }
+  }, []);
+
+  useEffect(() => {
+    const favorites = readStorageFavoriteRecipes();
+
+    const checkFavorite = favorites.some((favorite) => favorite.id === id);
+    if (checkFavorite) {
+      setIsFavorite(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isFood) {
+      saveStorageInProgressRecipes('meals', id, indexIngredients);
+    } else {
+      saveStorageInProgressRecipes('cocktails', id, indexIngredients);
+    }
+
+    const ingredientsList = { ...details };
+
+    Object.keys(ingredientsList).forEach((key) => {
+      if (!key.includes('strIngredient')) {
+        delete ingredientsList[key];
+      }
+    });
+
+    const ingredientsFiltered = Object.values(ingredientsList).filter(
+      (ingredient) => ingredient && ingredient.length > 0,
+    );
+
+    if (ingredientsFiltered.length === indexIngredients.length) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [indexIngredients]);
 
   const setFavoritesRecipes = () => {
     const favorites = readStorageFavoriteRecipes();
@@ -71,14 +107,6 @@ function RecipeInProgress() {
       setIsFavorite(false);
       const removeFavorite = favorites.filter((favorite) => favorite.id !== id);
       localStorage.setItem('favoriteRecipes', JSON.stringify(removeFavorite));
-    }
-  };
-
-  const handlePush = () => {
-    if (isFood) {
-      history.push(`/foods/${id}/in-progress`);
-    } else {
-      history.push(`/drinks/${id}/in-progress`);
     }
   };
 
@@ -121,27 +149,19 @@ function RecipeInProgress() {
       <h5 data-testid="recipe-category">
         {isFood ? details.strCategory : details.strAlcoholic}
       </h5>
-      <IngredientsList details={ details } inProgress />
+      <IngredientsList
+        details={ details }
+        indexIngredients={ indexIngredients }
+        setIndexIngredients={ setIndexIngredients }
+        inProgress
+      />
       <h4>Instructions</h4>
       <p data-testid="instructions">{details.strInstructions}</p>
-      {/* {isFood && (
-        <>
-          <h4>Video</h4>
-          <iframe
-            data-testid="video"
-            width="420"
-            height="315"
-            src={ editUrlVideo() }
-            title="Video no Youtube"
-          />
-        </>
-      )}
-      <Recommended /> */}
       <button
-        // className="fixarButton"
         type="button"
         data-testid="finish-recipe-btn"
-        onClick={ handlePush }
+        disabled={ disabled }
+        onClick={ () => history.push('/done-recipes') }
       >
         Finish
       </button>

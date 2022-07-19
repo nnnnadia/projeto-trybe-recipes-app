@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function IngredientsList({ details, inProgress }) {
+function IngredientsList({
+  details,
+  inProgress,
+  indexIngredients,
+  setIndexIngredients,
+}) {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
 
@@ -25,6 +30,24 @@ function IngredientsList({ details, inProgress }) {
     setMeasures(Object.values(onlyMeasures));
   }, [details]);
 
+  const isChecked = (index) => {
+    if (indexIngredients.length > 0) {
+      return indexIngredients.includes(index);
+    }
+    return false;
+  };
+
+  const handleChange = (index) => {
+    if (!indexIngredients.includes(index)) {
+      setIndexIngredients([...indexIngredients, index]);
+    } else {
+      const remove = indexIngredients.filter(
+        (ingredient) => ingredient !== index,
+      );
+      setIndexIngredients(remove);
+    }
+  };
+
   return (
     <>
       <h4>Ingredients</h4>
@@ -38,7 +61,9 @@ function IngredientsList({ details, inProgress }) {
                   <input
                     type="checkbox"
                     id={ ingredient }
-                    value={ ingredient }
+                    value={ index }
+                    checked={ isChecked(index) }
+                    onChange={ () => handleChange(index) }
                   />
                   {measures[index] && measures[index].length > 0
                     ? `${measures[index]} - ${ingredient}`
@@ -70,6 +95,13 @@ function IngredientsList({ details, inProgress }) {
 IngredientsList.propTypes = {
   details: PropTypes.shape().isRequired,
   inProgress: PropTypes.bool.isRequired,
+  indexIngredients: PropTypes.arrayOf(PropTypes.number),
+  setIndexIngredients: PropTypes.func,
+};
+
+IngredientsList.defaultProps = {
+  indexIngredients: [],
+  setIndexIngredients: () => {},
 };
 
 export default IngredientsList;

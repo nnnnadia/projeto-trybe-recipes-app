@@ -1,3 +1,4 @@
+import { Button, ButtonGroup, Grid } from '@mui/material';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
@@ -39,23 +40,31 @@ function CategoriesOptions() {
   };
 
   return (
-    <div>
-      {categoriesToShow()
-        .slice(0, MAX_ITEMS)
-        .map(({ strCategory }) => (
-          <button
-            key={ strCategory }
-            data-testid={ `${strCategory}-category-filter` }
-            type="button"
-            onClick={ () => changeCategoryToogle(strCategory) }
-          >
-            {strCategory}
-          </button>
-        ))}
-      <button type="button" data-testid="All-category-filter" onClick={ showAll }>
-        All
-      </button>
-    </div>
+    <ButtonGroup variant="text" aria-label="text button group">
+      <Grid container wrap="nowrap">
+        {categoriesToShow()
+          .slice(0, MAX_ITEMS)
+          .map(({ strCategory }) => (
+            <Button
+              size="small"
+              key={ strCategory }
+              data-testid={ `${strCategory}-category-filter` }
+              type="button"
+              onClick={ () => changeCategoryToogle(strCategory) }
+            >
+              {strCategory}
+            </Button>
+          ))}
+        <Button
+          size="small"
+          type="button"
+          data-testid="All-category-filter"
+          onClick={ showAll }
+        >
+          All
+        </Button>
+      </Grid>
+    </ButtonGroup>
   );
 }
 

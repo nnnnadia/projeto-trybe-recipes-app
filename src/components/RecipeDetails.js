@@ -31,9 +31,11 @@ function RecipeDetails() {
     const getDetails = async () => {
       if (isFood) {
         const foodDetails = await fetchDetailsFood(id);
+        // console.log(foodDetails);
         setDetails(foodDetails.meals[0]);
       } else {
         const drinkDetails = await fetchDetailsDrink(id);
+        // console.log(drinkDetails);
         setDetails(drinkDetails.drinks[0]);
       }
     };
@@ -62,6 +64,7 @@ function RecipeDetails() {
 
     if (isFood) {
       const progressMealsIds = Object.keys(progress.meals);
+      // console.log(progressMealsIds);
       const checkProgressFood = progressMealsIds.some(
         (idMeal) => idMeal === id,
       );
@@ -98,7 +101,7 @@ function RecipeDetails() {
 
   const setFavoritesRecipes = () => {
     const favorites = readStorageFavoriteRecipes();
-
+    console.log(favorites);
     const checkFavorite = favorites.some((favorite) => favorite.id === id);
     if (!checkFavorite) {
       setIsFavorite(true);
@@ -139,17 +142,17 @@ function RecipeDetails() {
       <button type="button" data-testid="share-btn" onClick={ clickShare }>
         <img src={ shareIcon } alt="compartilhar" />
       </button>
-      <button type="button" onClick={ setFavoritesRecipes }>
+      <button type="button" data-testid="btn-favorite" onClick={ setFavoritesRecipes }>
         {isFavorite ? (
           <img
             src={ blackHeartIcon }
-            alt="favoritar"
+            alt="blackHeartIcon"
             data-testid="favorite-btn"
           />
         ) : (
           <img
             src={ whiteHeartIcon }
-            alt="favoritar"
+            alt="whiteHeartIcon"
             data-testid="favorite-btn"
           />
         )}

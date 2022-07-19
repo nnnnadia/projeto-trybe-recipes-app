@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { Card, CardActions, CardContent, CardMedia, Chip, IconButton, Typography } from '@mui/material';
 import clipboardCopy from 'clipboard-copy';
 import IngredientsList from './IngredientsList';
 import Recommended from './Recommended';
@@ -129,50 +130,75 @@ function RecipeDetails() {
   };
 
   return (
-    <div>
-      <img
-        data-testid="recipe-photo"
-        src={ details.strMealThumb || details.strDrinkThumb }
+    <Card sx={ { maxWidth: 345 } }>
+      <CardMedia
+        component="img"
+        height="240"
+        image={ details.strMealThumb || details.strDrinkThumb }
         alt="Imagem da receita"
       />
-      <h3 data-testid="recipe-title">{details.strMeal || details.strDrink}</h3>
-      <button type="button" data-testid="share-btn" onClick={ clickShare }>
-        <img src={ shareIcon } alt="compartilhar" />
-      </button>
-      <button type="button" onClick={ setFavoritesRecipes }>
-        {isFavorite ? (
+      <CardContent>
+        <Typography
+          variant="h4"
+          data-testid="recipe-title"
+        >
+          { details.strMeal || details.strDrink }
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <IconButton aria-label="share" onClick={ clickShare }>
           <img
-            src={ blackHeartIcon }
-            alt="favoritar"
-            data-testid="favorite-btn"
+            src={ shareIcon }
+            alt="compartilhar"
+            data-testid="share-btn"
           />
-        ) : (
-          <img
-            src={ whiteHeartIcon }
-            alt="favoritar"
-            data-testid="favorite-btn"
-          />
+        </IconButton>
+        <IconButton aria-label="favorite" onClick={ setFavoritesRecipes }>
+          {isFavorite ? (
+            <img
+              src={ blackHeartIcon }
+              alt="favoritar"
+              data-testid="favorite-btn"
+            />
+          ) : (
+            <img
+              src={ whiteHeartIcon }
+              alt="favoritar"
+              data-testid="favorite-btn"
+            />
+          )}
+        </IconButton>
+        {copied && <span>Link copied!</span>}
+      </CardActions>
+      <CardContent>
+        <Chip
+          label={ isFood ? details.strCategory : details.strAlcoholic }
+          data-testid="recipe-category"
+        />
+        <IngredientsList details={ details } inProgress={ false } />
+        <Typography variant="h5" gutterBottom>
+          Instructions
+        </Typography>
+        <Typography
+          variant="body1"
+          gutterBottom
+          data-testid="instructions"
+        >
+          {details.strInstructions}
+        </Typography>
+        {isFood && (
+          <>
+            <Typography variant="h5" gutterBottom>
+              Video
+            </Typography>
+            <CardMedia
+              component="iframe"
+              data-testid="video"
+              src={ editUrlVideo() }
+            />
+          </>
         )}
-      </button>
-      {copied && <span>Link copied!</span>}
-      <h5 data-testid="recipe-category">
-        {isFood ? details.strCategory : details.strAlcoholic}
-      </h5>
-      <IngredientsList details={ details } inProgress={ false } />
-      <h4>Instructions</h4>
-      <p data-testid="instructions">{details.strInstructions}</p>
-      {isFood && (
-        <>
-          <h4>Video</h4>
-          <iframe
-            data-testid="video"
-            width="420"
-            height="315"
-            src={ editUrlVideo() }
-            title="Video no Youtube"
-          />
-        </>
-      )}
+      </CardContent>
       <Recommended />
       {!done && (
         <button
@@ -184,7 +210,7 @@ function RecipeDetails() {
           {inProgress ? 'Continue Recipe' : 'Start Recipe'}
         </button>
       )}
-    </div>
+    </Card>
   );
 }
 

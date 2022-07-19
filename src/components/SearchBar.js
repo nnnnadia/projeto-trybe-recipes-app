@@ -1,3 +1,10 @@
+import {
+  Button,
+  Grid,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 import React, { useState, useContext } from 'react';
 import RecipesContext from '../context/RecipesContext';
 
@@ -21,59 +28,67 @@ function SearchBar() {
   };
 
   return (
-    <div>
-      <input
-        data-testid="search-input"
-        type="text"
-        id="search-input"
-        placeholder="Digite a sua busca"
-        value={ searchInput }
-        onChange={ ({ target }) => setSearchInput(target.value) }
-      />
-      <div>
-        <label className="input-label" htmlFor="ingredient">
-          <input
-            data-testid="ingredient-search-radio"
-            type="radio"
-            id="ingredient"
-            name="search"
+    <Grid
+      container
+      spacing={ 1 }
+      padding={ 1 }
+      justifyContent="center"
+    >
+      <Grid item>
+        <Grid container spacing={ 1 }>
+          <Grid item>
+            <TextField
+              size="small"
+              variant="outlined"
+              data-testid="search-input"
+              value={ searchInput }
+              placeholder="Digite a sua busca"
+              onChange={ ({ target }) => setSearchInput(target.value) }
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              onClick={ handleSearchButton }
+              data-testid="exec-search-btn"
+            >
+              Buscar
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        <ToggleButtonGroup
+          color="primary"
+          size="small"
+          value={ typeOfSearch }
+          exclusive
+          onChange={ ({ target }) => setTypeOfSearch(target.value) }
+        >
+          <ToggleButton
             value="ingredient"
             checked={ typeOfSearch === 'ingredient' }
-            onChange={ ({ target }) => setTypeOfSearch(target.value) }
-          />
-          Ingrediente
-        </label>
-        <label htmlFor="name">
-          <input
-            data-testid="name-search-radio"
-            type="radio"
-            id="name"
-            name="search"
+            data-testid="ingredient-search-radio"
+          >
+            Ingrediente
+          </ToggleButton>
+          <ToggleButton
             value="name"
-            onChange={ ({ target }) => setTypeOfSearch(target.value) }
-          />
-          Nome
-        </label>
-        <label htmlFor="first-letter">
-          <input
-            data-testid="first-letter-search-radio"
-            type="radio"
-            id="first-letter"
-            name="search"
+            checked={ typeOfSearch === 'name' }
+            data-testid="name-search-radio"
+          >
+            Nome
+          </ToggleButton>
+          <ToggleButton
             value="first-letter"
-            onChange={ ({ target }) => setTypeOfSearch(target.value) }
-          />
-          Primeira letra
-        </label>
-        <button
-          data-testid="exec-search-btn"
-          type="button"
-          onClick={ handleSearchButton }
-        >
-          Buscar
-        </button>
-      </div>
-    </div>
+            checked={ typeOfSearch === 'first-letter' }
+            data-testid="first-letter-search-radio"
+          >
+            Primeira letra
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Grid>
+    </Grid>
   );
 }
 

@@ -20,13 +20,14 @@ function Header({ pageTitle, showSearchIcon }) {
   };
 
   return (
-    <AppBar position="sticky">
-      <Toolbar disableGutters>
+    <>
+      <AppBar position="sticky">
         <Grid
           container
           direction="row"
           justifyContent="space-around"
           alignItems="center"
+          padding={ 1 }
         >
           <IconButton
             size="large"
@@ -57,9 +58,9 @@ function Header({ pageTitle, showSearchIcon }) {
             </IconButton>
           )}
         </Grid>
-      </Toolbar>
+      </AppBar>
       {showSearchBar && <SearchBar />}
-    </AppBar>
+    </>
   );
 }
 

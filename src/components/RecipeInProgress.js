@@ -80,7 +80,10 @@ function RecipeInProgress() {
       (ingredient) => ingredient && ingredient.length > 0,
     );
 
-    if (ingredientsFiltered.length === indexIngredients.length) {
+    if (
+      ingredientsFiltered.length > 0
+      && ingredientsFiltered.length === indexIngredients.length
+    ) {
       setDisabled(false);
     } else {
       setDisabled(true);

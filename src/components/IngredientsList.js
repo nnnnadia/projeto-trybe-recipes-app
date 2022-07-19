@@ -33,10 +33,9 @@ function IngredientsList({ details, inProgress }) {
           {ingredients
             .filter((ingredient) => ingredient && ingredient.length > 0)
             .map((ingredient, index) => (
-              <div key={ ingredient }>
+              <div key={ ingredient } data-testid={ `${index}-ingredient-step` }>
                 <label htmlFor={ ingredient }>
                   <input
-                    data-testid={ `${index}-ingredient-step` }
                     type="checkbox"
                     id={ ingredient }
                     value={ ingredient }

@@ -7,16 +7,12 @@ import App from '../App';
 const copy = require('clipboard-copy');
 
 jest.mock('clipboard-copy');
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: () => ({ id: '52768' }),
-  useRouteMatch: () => ({ path: '/foods/:id', params: { id: '52768' } }),
-}));
 
 const EMAIL_INPUT = 'email-input';
 const PASSWORD_INPUT = 'password-input';
 const LOGIN_SUBMIT_BTN = 'login-submit-btn';
 const EMAIL = 'grupo14@gmail.com';
+const RECIPE_CARD = '0-recipe-card';
 const SIX = 6;
 
 describe('Testando página de RecipeDetails', () => {
@@ -38,7 +34,7 @@ describe('Testando página de RecipeDetails', () => {
 
     await waitFor(
       () => {
-        const corbaRecipe = screen.getByTestId('0-recipe-card');
+        const corbaRecipe = screen.getByTestId(RECIPE_CARD);
         userEvent.click(corbaRecipe);
       },
       { timeout: 4000 },
@@ -91,7 +87,7 @@ describe('Testando página de RecipeDetails', () => {
 
     await waitFor(
       () => {
-        const ggRecipe = screen.getByTestId('0-recipe-card');
+        const ggRecipe = screen.getByTestId(RECIPE_CARD);
         userEvent.click(ggRecipe);
       },
       { timeout: 4000 },
@@ -123,9 +119,8 @@ describe('Testando página de RecipeDetails', () => {
   });
 
   it(`Testando se ao clicar no  botão Share 
-     a mensagem "Link copied!" é renderizada`, async () => {
+     a mensagem "Link copied!" é renderizada para a página de comidas`, async () => {
     jest.spyOn(global, 'fetch');
-    document.execCommand = jest.fn();
 
     renderWithRouter(<App />);
 
@@ -149,9 +144,6 @@ describe('Testando página de RecipeDetails', () => {
       { timeout: 4000 },
     );
 
-    // debug();
-    // const copy = 'http://localhost:3000/foods/52977';
-
     const buttonShare = screen.getByTestId('share-btn');
     expect(buttonShare).toBeInTheDocument();
     userEvent.click(buttonShare);
@@ -161,9 +153,39 @@ describe('Testando página de RecipeDetails', () => {
     expect(mensage).toBeInTheDocument();
   });
 
-  //   await waitFor(() => {
-  //     expect(document.execCommand).toHaveBeenCalledWith('copy');
-  //     const MENSSEGER = screen.queryByText(/Link copied/i);
-  //     expect(MENSSEGER).toBeInTheDocument();
-  //   });
+  it(`Testando se ao clicar no  botão Share 
+     a mensagem "Link copied!" é renderizada para a página de bebidas`, async () => {
+    jest.spyOn(global, 'fetch');
+
+    renderWithRouter(<App />);
+
+    const email = screen.getByTestId(EMAIL_INPUT);
+    const password = screen.getByTestId(PASSWORD_INPUT);
+    const button = screen.getByTestId(LOGIN_SUBMIT_BTN);
+
+    userEvent.type(email, EMAIL);
+    userEvent.type(password, '1234567');
+
+    userEvent.click(button);
+
+    const drinkButton = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(drinkButton);
+
+    await waitFor(
+      () => {
+        const ggRecipe = screen.getByTestId(RECIPE_CARD);
+        userEvent.click(ggRecipe);
+      },
+      { timeout: 4000 },
+    );
+
+    const buttonShare = screen.getByTestId('share-btn');
+    expect(buttonShare).toBeInTheDocument();
+    userEvent.click(buttonShare);
+    expect(copy).toHaveBeenCalled();
+
+    const mensage = screen.queryByText(/Link copied/i);
+    expect(mensage).toBeInTheDocument();
+  });
 });

@@ -13,7 +13,7 @@ const endpointComplement = (searchOption) => {
   }
 };
 
-const fetchFoods = async (searchOption = '', searchText = '') => {
+export const fetchFoods = async (searchOption = '', searchText = '') => {
   const result = fetch(
     endpointBase + endpointComplement(searchOption) + searchText,
   )
@@ -24,7 +24,7 @@ const fetchFoods = async (searchOption = '', searchText = '') => {
   return result;
 };
 
-const fetchCategoriesFoods = async () => {
+export const fetchCategoriesFoods = async () => {
   const result = fetch(`${endpointBase}list.php?c=list`)
     .then((response) => response.json())
     .then((response) => response)
@@ -33,7 +33,7 @@ const fetchCategoriesFoods = async () => {
   return result;
 };
 
-const fetchFoodsByCategory = async (category) => {
+export const fetchFoodsByCategory = async (category) => {
   const result = fetch(`${endpointBaseCategory}${category}`)
     .then((response) => response.json())
     .then((response) => response)
@@ -42,18 +42,11 @@ const fetchFoodsByCategory = async (category) => {
   return result;
 };
 
-const fetchDetailsFood = async (id) => {
+export const fetchDetailsFood = async (id) => {
   const result = fetch(`${endpointBaseDetails}${id}`)
     .then((response) => response.json())
     .then((response) => response)
     .catch((error) => error);
 
   return result;
-};
-
-export {
-  fetchFoods,
-  fetchCategoriesFoods,
-  fetchFoodsByCategory,
-  fetchDetailsFood,
 };

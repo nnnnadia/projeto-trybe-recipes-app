@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Typography } from '@mui/material';
 import RecipesContext from '../context/RecipesContext';
 import CardRecipe from './CardRecipe';
 import '../styles/Recommended.css';
@@ -14,7 +15,9 @@ function Recommended() {
 
   return (
     <>
-      <h4>Recommended</h4>
+      <Typography variant="h5" gutterBottom>
+        Recommended
+      </Typography>
       <div className="scrollmenu">
         {isFood
           ? allDrinks

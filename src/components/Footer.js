@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
-import '../styles/Footer.css';
+import { FixedFooter } from '../styles/StyledComponents';
 
 function Footer() {
   const history = useHistory();
@@ -18,7 +18,7 @@ function Footer() {
   };
 
   return (
-    <footer className="fixarRodape" data-testid="footer">
+    <FixedFooter data-testid="footer">
       <BottomNavigation
         showLabels={ false }
       >
@@ -37,7 +37,7 @@ function Footer() {
           onClick={ () => handleClick('/foods') }
         />
       </BottomNavigation>
-    </footer>
+    </FixedFooter>
   );
 }
 

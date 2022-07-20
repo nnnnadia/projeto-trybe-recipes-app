@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
+  Button,
   Card,
-  CardActions,
   CardContent,
   CardMedia,
   Chip,
-  IconButton,
   Typography,
 } from '@mui/material';
 import clipboardCopy from 'clipboard-copy';
@@ -19,10 +18,9 @@ import {
   readStorageInProgressRecipes,
   saveStorageFavoriteRecipes,
 } from '../services/recipesLocalStorage';
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../styles/RecipeDetails.css';
+import { FixedFooter } from '../styles/StyledComponents';
+import RecipeDetailsTitle from './RecipeDetailsTitle';
 
 function RecipeDetails() {
   const [details, setDetails] = useState({});
@@ -138,87 +136,66 @@ function RecipeDetails() {
   };
 
   return (
-    <Card sx={ { maxWidth: 345 } }>
-      <CardMedia
-        component="img"
-        height="240"
-        image={ details.strMealThumb || details.strDrinkThumb }
-        alt="Imagem da receita"
-      />
-      <CardContent>
-        <Typography
-          variant="h4"
-          data-testid="recipe-title"
-        >
-          { details.strMeal || details.strDrink }
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <IconButton aria-label="share" onClick={ clickShare }>
-          <img
-            src={ shareIcon }
-            alt="compartilhar"
-            data-testid="share-btn"
-          />
-        </IconButton>
-        <IconButton aria-label="favorite" onClick={ setFavoritesRecipes }>
-          {isFavorite ? (
-            <img
-              src={ blackHeartIcon }
-              alt="favoritar"
-              data-testid="favorite-btn"
-            />
-          ) : (
-            <img
-              src={ whiteHeartIcon }
-              alt="favoritar"
-              data-testid="favorite-btn"
-            />
-          )}
-        </IconButton>
-        {copied && <span>Link copied!</span>}
-      </CardActions>
-      <CardContent>
-        <Chip
-          label={ isFood ? details.strCategory : details.strAlcoholic }
-          data-testid="recipe-category"
+    <>
+      <Card sx={ { maxWidth: 345 } }>
+        <CardMedia
+          component="img"
+          height="240"
+          image={ details.strMealThumb || details.strDrinkThumb }
+          alt="Imagem da receita"
         />
-        <IngredientsList details={ details } inProgress={ false } />
-        <Typography variant="h5" gutterBottom>
-          Instructions
-        </Typography>
-        <Typography
-          variant="body1"
-          gutterBottom
-          data-testid="instructions"
-        >
-          {details.strInstructions}
-        </Typography>
-        {isFood && (
-          <>
-            <Typography variant="h5" gutterBottom>
-              Video
-            </Typography>
-            <CardMedia
-              component="iframe"
-              data-testid="video"
-              src={ editUrlVideo() }
-            />
-          </>
-        )}
-      </CardContent>
-      <Recommended />
+        <RecipeDetailsTitle
+          details={ details }
+          clickShare={ clickShare }
+          setFavoritesRecipes={ setFavoritesRecipes }
+          isFavorite={ isFavorite }
+          copied={ copied }
+        />
+        <CardContent>
+          <Chip
+            label={ isFood ? details.strCategory : details.strAlcoholic }
+            data-testid="recipe-category"
+          />
+          <IngredientsList details={ details } inProgress={ false } />
+          <Typography variant="h5" gutterBottom>
+            Instructions
+          </Typography>
+          <Typography
+            variant="body1"
+            gutterBottom
+            data-testid="instructions"
+          >
+            {details.strInstructions}
+          </Typography>
+          {isFood && (
+            <>
+              <Typography variant="h5" gutterBottom>
+                Video
+              </Typography>
+              <CardMedia
+                component="iframe"
+                data-testid="video"
+                src={ editUrlVideo() }
+              />
+            </>
+          )}
+          <Recommended />
+        </CardContent>
+      </Card>
       {!done && (
-        <button
-          className="fixarButton"
-          type="button"
-          data-testid="start-recipe-btn"
-          onClick={ handlePush }
-        >
-          {inProgress ? 'Continue Recipe' : 'Start Recipe'}
-        </button>
+        <FixedFooter>
+          <Button
+            variant="contained"
+            color="success"
+            fullWidth
+            data-testid="start-recipe-btn"
+            onClick={ handlePush }
+          >
+            {inProgress ? 'Continue Recipe' : 'Start Recipe'}
+          </Button>
+        </FixedFooter>
       )}
-    </Card>
+    </>
   );
 }
 

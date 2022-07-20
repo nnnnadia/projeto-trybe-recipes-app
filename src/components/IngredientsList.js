@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { List, ListItem, Typography } from '@mui/material';
 
 function IngredientsList({
   details,
@@ -50,7 +51,9 @@ function IngredientsList({
 
   return (
     <>
-      <h4>Ingredients</h4>
+      <Typography variant="h5">
+        Ingredients
+      </Typography>
       {inProgress ? (
         <>
           {ingredients
@@ -73,20 +76,20 @@ function IngredientsList({
             ))}
         </>
       ) : (
-        <ul>
+        <List dense>
           {ingredients
             .filter((ingredient) => ingredient && ingredient.length > 0)
             .map((ingredient, index) => (
-              <li
+              <ListItem
                 key={ ingredient }
                 data-testid={ `${index}-ingredient-name-and-measure` }
               >
                 {measures[index] && measures[index].length > 0
                   ? `${measures[index]} - ${ingredient}`
                   : `${ingredient}`}
-              </li>
+              </ListItem>
             ))}
-        </ul>
+        </List>
       )}
     </>
   );

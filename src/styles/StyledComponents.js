@@ -14,3 +14,10 @@ export const CategoriesOptionsGrid = styled(Grid)`
 export const CardWithMargin = styled(Card)`
   margin-bottom: 10px;
 `;
+
+export const FixedFooter = styled('footer')`
+  bottom: 0;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+`;

@@ -7,6 +7,7 @@ import {
   fetchDetailsFood,
   readStorageFavoriteRecipes,
   readStorageInProgressRecipes,
+  saveStorageDoneRecipes,
   saveStorageFavoriteRecipes,
   saveStorageInProgressRecipes,
 } from '../services';
@@ -123,6 +124,26 @@ function RecipeInProgress() {
     setCopied(true);
   };
 
+  const handleClickFinish = () => {
+    const recipeObj = {
+      id: details.idMeal || details.idDrink,
+      type: isFood ? 'food' : 'drink',
+      nationality: details.strArea || '',
+      category: details.strCategory || '',
+      alcoholicOrNot: details.strAlcoholic || '',
+      name: details.strMeal || details.strDrink,
+      image: details.strMealThumb || details.strDrinkThumb,
+      doneDate: new Date().toLocaleDateString(),
+      tags:
+        details.strTags && details.strTags.length > 0
+          ? details.strTags.split(',')
+          : [],
+    };
+    saveStorageDoneRecipes(recipeObj);
+
+    history.push('/done-recipes');
+  };
+
   return (
     <div>
       <img
@@ -165,7 +186,7 @@ function RecipeInProgress() {
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ disabled }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ handleClickFinish }
       >
         Finish
       </button>

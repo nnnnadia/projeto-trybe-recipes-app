@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { CardActions, CardContent, Stack, Typography } from '@mui/material';
-import { ShareButton, FavoriteButton } from '.';
+import ShareButton from './ShareButton';
+import FavoriteButton from './FavoriteButton';
 import DetailsContext from '../../context/DetailsContext';
 
 function RecipeDetailsTitle() {

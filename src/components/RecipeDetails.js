@@ -9,13 +9,17 @@ import {
 } from '@mui/material';
 import RecipesContext from '../context/RecipesContext';
 import DetailsContext from '../context/DetailsContext';
-import IngredientsList from './IngredientsList';
 import Recommended from './Recommended';
-import { VideoMedia, RecipeDetailsTitle } from './RecipeDetailsComponents';
+import {
+  VideoMedia,
+  RecipeDetailsTitle,
+  IngredientsList,
+} from './RecipeDetailsComponents';
 import { FixedFooter } from '../styles/StyledComponents';
 
 function RecipeDetails() {
   const { isFood } = useContext(RecipesContext);
+
   const {
     details,
     done,

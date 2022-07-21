@@ -1,15 +1,18 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import RecipeDetails from '../components/RecipeDetails';
+import DetailsProvider from '../context/DetailsProvider';
 
 function FoodRecipe() {
   return (
-    <Grid
-      container
-      justifyContent="center"
-    >
-      <RecipeDetails />
-    </Grid>
+    <DetailsProvider>
+      <Grid
+        container
+        justifyContent="center"
+      >
+        <RecipeDetails />
+      </Grid>
+    </DetailsProvider>
   );
 }
 

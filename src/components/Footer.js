@@ -1,18 +1,19 @@
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
 import { FixedFooter } from '../styles/StyledComponents';
 
 function Footer() {
-  const history = useHistory();
-
-  const { setRecipesData, setFilterCategory } = useContext(RecipesContext);
+  const {
+    setRecipesData,
+    setFilterCategory,
+    handlePageOn,
+  } = useContext(RecipesContext);
 
   const handleClick = (pathName) => {
-    history.push(pathName);
+    handlePageOn(pathName);
     setRecipesData([]);
     setFilterCategory('All');
   };

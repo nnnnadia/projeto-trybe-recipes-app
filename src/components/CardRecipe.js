@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useHistory } from 'react-router-dom';
 import { CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 import { CardWithMargin } from '../styles/StyledComponents';
+import RecipesContext from '../context/RecipesContext';
 
 function CardRecipe({ image, title, index, id, recomendation }) {
-  const history = useHistory();
-  const isFood = history.location.pathname.includes('/foods');
+  const { isFood, handlePageOn } = useContext(RecipesContext);
 
   const goTo = () => {
     if (recomendation) {
@@ -22,38 +21,36 @@ function CardRecipe({ image, title, index, id, recomendation }) {
   };
 
   return (
-    <Link to={ isFood ? `/foods/${id}` : `/drinks/${id}` }>
-      <CardWithMargin
-        data-testid={
-          recomendation ? `${index}-recomendation-card` : `${index}-recipe-card`
-        }
-        sx={ { maxWidth: 345 } }
-      >
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="140"
-            image={ image }
-            alt={ title }
+    <CardWithMargin
+      data-testid={
+        recomendation ? `${index}-recomendation-card` : `${index}-recipe-card`
+      }
+      sx={ { maxWidth: 345 } }
+    >
+      <CardActionArea onClick={ () => handlePageOn(goTo()) }>
+        <CardMedia
+          component="img"
+          height="140"
+          image={ image }
+          alt={ title }
+          data-testid={
+            recomendation ? `${index}-recomendation-img` : `${index}-card-img`
+          }
+        />
+        <CardContent>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
             data-testid={
-              recomendation ? `${index}-recomendation-img` : `${index}-card-img`
+              recomendation ? `${index}-recomendation-title` : `${index}-card-name`
             }
-          />
-          <CardContent>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-              data-testid={
-                recomendation ? `${index}-recomendation-title` : `${index}-card-name`
-              }
-            >
-              {title}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </CardWithMargin>
-    </Link>
+          >
+            {title}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </CardWithMargin>
   );
 }
 

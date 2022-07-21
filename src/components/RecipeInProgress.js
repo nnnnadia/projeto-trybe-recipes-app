@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
 import IngredientsList from './IngredientsList';
-import { fetchDetailsDrink, fetchDetailsFood } from '../data';
 import {
+  fetchDetailsDrink,
+  fetchDetailsFood,
   readStorageFavoriteRecipes,
   readStorageInProgressRecipes,
   saveStorageFavoriteRecipes,
   saveStorageInProgressRecipes,
-} from '../services/recipesLocalStorage';
+} from '../services';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';

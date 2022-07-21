@@ -9,7 +9,7 @@ import {
   fetchDrinksByCategory,
   fetchFoods,
   fetchFoodsByCategory,
-} from '../data';
+} from '../services';
 import {
   readStorageDoneRecipes,
   readStorageFavoriteRecipes,
@@ -29,14 +29,12 @@ function RecipesProvider({ children }) {
   const [filteredData, setFilteredData] = useState([]);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [isFood, setIsFood] = useState(true);
 
   const history = useHistory();
 
   useEffect(() => {
-    const pathName = history.location.pathname;
-
     const data = async (option, text) => {
-      const isFood = pathName === '/foods';
       if (isFood && text.length > 0) {
         const dataFood = await fetchFoods(option, text);
         setRecipesData(dataFood.meals);
@@ -53,7 +51,6 @@ function RecipesProvider({ children }) {
 
   useEffect(() => {
     const checkResult = () => {
-      const isFood = history.location.pathname === '/foods';
       if (recipesData && recipesData.length === 1 && isFood) {
         history.push(`/foods/${recipesData[0].idMeal}`);
       } else if (!isFood && recipesData && recipesData.length === 1) {
@@ -97,9 +94,6 @@ function RecipesProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    const pathName = history.location.pathname;
-    const isFood = pathName === '/foods';
-
     const filterFetch = async () => {
       if (isFood && filterCategory !== 'All') {
         const data = await fetchFoodsByCategory(filterCategory);
@@ -117,6 +111,18 @@ function RecipesProvider({ children }) {
     filterFetch();
   }, [filterCategory]);
 
+  const handlePageOn = (pathName) => {
+    history.push(pathName);
+    const PATHNAME_ELEMENT = pathName.split('/')[1];
+    const FOODS_PATHNAME = 'foods';
+    setIsFood(PATHNAME_ELEMENT === FOODS_PATHNAME);
+  };
+
+  useEffect(() => {
+    const { location: { pathname } } = history;
+    handlePageOn(pathname);
+  }, []);
+
   const contextValue = {
     search,
     setSearch,
@@ -131,6 +137,8 @@ function RecipesProvider({ children }) {
     filteredData,
     favoriteRecipes,
     doneRecipes,
+    isFood,
+    handlePageOn,
   };
 
   return (

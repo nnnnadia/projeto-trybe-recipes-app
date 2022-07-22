@@ -1,4 +1,4 @@
-import { Typography, styled, Grid, Card } from '@mui/material';
+import { Typography, styled, Grid, ToggleButtonGroup } from '@mui/material';
 
 export const HeaderTitle = styled(Typography)`
   font-family: monospace;
@@ -11,13 +11,13 @@ export const CategoriesOptionsGrid = styled(Grid)`
   margin: 5px auto;
 `;
 
-export const CardWithMargin = styled(Card)`
-  margin-bottom: 10px;
-`;
-
 export const FixedFooter = styled('footer')`
   bottom: 0;
   position: fixed;
   text-align: center;
   width: 100%;
+`;
+
+export const ToggleButtonGroupPadded = styled(ToggleButtonGroup)`
+  padding: 10px;
 `;

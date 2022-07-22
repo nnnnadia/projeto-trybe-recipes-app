@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
-import { CardWithMargin } from '../styles/StyledComponents';
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 import RecipesContext from '../context/RecipesContext';
 
 function CardRecipe({ image, title, index, id, recomendation }) {
@@ -21,11 +20,11 @@ function CardRecipe({ image, title, index, id, recomendation }) {
   };
 
   return (
-    <CardWithMargin
+    <Card
       data-testid={
         recomendation ? `${index}-recomendation-card` : `${index}-recipe-card`
       }
-      sx={ { maxWidth: 345 } }
+      sx={ { maxWidth: 345, mb: 1 } }
     >
       <CardActionArea onClick={ () => handlePageOn(goTo()) }>
         <CardMedia
@@ -41,7 +40,6 @@ function CardRecipe({ image, title, index, id, recomendation }) {
           <Typography
             gutterBottom
             variant="h5"
-            component="div"
             data-testid={
               recomendation ? `${index}-recomendation-title` : `${index}-card-name`
             }
@@ -50,7 +48,7 @@ function CardRecipe({ image, title, index, id, recomendation }) {
           </Typography>
         </CardContent>
       </CardActionArea>
-    </CardWithMargin>
+    </Card>
   );
 }
 

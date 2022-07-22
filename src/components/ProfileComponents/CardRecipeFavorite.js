@@ -1,30 +1,36 @@
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
-  Chip,
   Typography,
 } from '@mui/material';
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import RecipesContext from '../../context/RecipesContext';
 import ShareButton from './ShareButton';
+import FavoriteButton from './FavoriteButton';
 
-function CardRecipeDone({
+function CardRecipeFavorite({
   id,
   type,
   image,
-  doneDate,
-  name,
   nationality,
   category,
   alcoholicOrNot,
-  tags,
+  name,
   index,
+  favoritesRecipes,
+  updateFavoritesRecipes,
 }) {
   const { handlePageOn } = useContext(RecipesContext);
+
+  const getCaption = () => {
+    const captionOptions = [nationality, category, alcoholicOrNot];
+    const captionString = captionOptions.filter((option) => option !== '').join(' - ');
+    return captionString;
+  };
 
   const goToDetails = () => {
     if (type === 'food') {
@@ -33,14 +39,8 @@ function CardRecipeDone({
     return `/drinks/${id}`;
   };
 
-  const getCaption = () => {
-    const captionOptions = [nationality, category, alcoholicOrNot];
-    const captionString = captionOptions.filter((option) => option !== '').join(' - ');
-    return captionString;
-  };
-
   return (
-    <Card sx={ { maxWidth: 345, mb: 1, position: 'relative' } }>
+    <Card key={ id } sx={ { maxWidth: 345, mb: 1, position: 'relative' } }>
       <CardActionArea
         onClick={ () => handlePageOn(goToDetails()) }
       >
@@ -52,13 +52,6 @@ function CardRecipeDone({
           data-testid={ `${index}-horizontal-image` }
         />
         <CardContent>
-          <Typography
-            variant="body2"
-            data-testid={ `${index}-horizontal-done-date` }
-          >
-            { 'Done in: ' }
-            { doneDate }
-          </Typography>
           <Typography
             variant="h5"
             data-testid={ `${index}-horizontal-name` }
@@ -73,40 +66,38 @@ function CardRecipeDone({
           >
             { getCaption() }
           </Typography>
-          {tags.length > 0
-          && tags.map((tag) => (
-            <Chip
-              key={ tag }
-              label={ tag }
-              size="small"
-              data-testid={ `${index}-${tag}-horizontal-tag` }
-            />
-          ))}
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <ShareButton type={ type } id={ id } index={ index } />
+        <ShareButton
+          type={ type }
+          id={ id }
+          index={ index }
+        />
+        <FavoriteButton
+          id={ id }
+          index={ index }
+          favoritesRecipes={ favoritesRecipes }
+          updateFavoritesRecipes={ updateFavoritesRecipes }
+        />
       </CardActions>
     </Card>
   );
 }
 
-CardRecipeDone.propTypes = {
-  type: PropTypes.string.isRequired,
+CardRecipeFavorite.propTypes = {
   id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   nationality: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   alcoholicOrNot: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  doneDate: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(
-    PropTypes.string,
+  index: PropTypes.number.isRequired,
+  favoritesRecipes: PropTypes.arrayOf(
+    PropTypes.shape({}),
   ).isRequired,
-  index: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
+  updateFavoritesRecipes: PropTypes.func.isRequired,
 };
 
-export default CardRecipeDone;
+export default CardRecipeFavorite;

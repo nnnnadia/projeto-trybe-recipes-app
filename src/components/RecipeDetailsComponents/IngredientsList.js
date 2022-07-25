@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { List, ListItem, Typography } from '@mui/material';
+import { useHistory  } from 'react-router-dom';
+import { List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import DetailsContext from '../../context/DetailsContext';
 
 function IngredientsList() {
   const {
     details,
-    done,
     inProgress,
     indexIngredients,
     setIndexIngredients,
@@ -13,6 +13,9 @@ function IngredientsList() {
 
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
+
+  const history = useHistory();
+  const { location: { pathname } } = history;
 
   useEffect(() => {
     const onlyIngredients = { ...details };
@@ -58,25 +61,24 @@ function IngredientsList() {
         Ingredients
       </Typography>
       <List dense>
-        {inProgress && !done ? (
+        {pathname.includes('in-progress') ? (
           <>
             {ingredients
               .filter((ingredient) => ingredient && ingredient.length > 0)
               .map((ingredient, index) => (
-                <div key={ ingredient } data-testid={ `${index}-ingredient-step` }>
-                  <label htmlFor={ ingredient }>
-                    <input
-                      type="checkbox"
-                      id={ ingredient }
-                      value={ index }
-                      checked={ isChecked(index) }
-                      onChange={ () => handleChange(index) }
-                    />
-                    {measures[index] && measures[index].length > 0
+                <ListItemButton
+                  key={ ingredient }
+                  value={ index }
+                  selected={ isChecked(index) }
+                  onClick={ () => handleChange(index) }
+                  data-testid={ `${index}-ingredient-step` }
+                >
+                  <ListItemText
+                    primary={ measures[index] && measures[index].length > 0
                       ? `${measures[index]} - ${ingredient}`
-                      : `${ingredient}`}
-                  </label>
-                </div>
+                      : `${ingredient}` }
+                  />
+                </ListItemButton>
               ))}
           </>
         ) : (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clipboardCopy from 'clipboard-copy';
-import { Fab, Stack } from '@mui/material';
+import { Fab, Tooltip } from '@mui/material';
 import shareIcon from '../../images/shareIcon.svg';
 
 function ShareButton({ type, id, index }) {
@@ -19,14 +19,15 @@ function ShareButton({ type, id, index }) {
   };
 
   return (
-    <Stack
-      direction="row"
-      alignItems="center"
-      sx={ { position: 'absolute', right: 10, top: 10 } }
+    <Tooltip
+      title="Link copied!"
+      open={ copied }
+      placement="left"
+      arrow
     >
-      {copied && <span>Link copied!</span>}
       <Fab
         aria-label="share"
+        sx={ { position: 'absolute', right: 10, top: 10 } }
         onClick={ () => clickShare() }
       >
         <img
@@ -35,7 +36,7 @@ function ShareButton({ type, id, index }) {
           data-testid={ `${index}-horizontal-share-btn` }
         />
       </Fab>
-    </Stack>);
+    </Tooltip>);
 }
 
 ShareButton.propTypes = {

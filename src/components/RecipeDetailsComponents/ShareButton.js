@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import shareIcon from '../../images/shareIcon.svg';
 import RecipesContext from '../../context/RecipesContext';
 
@@ -24,8 +24,12 @@ function ShareButton() {
   };
 
   return (
-    <>
-      {copied && <span>Link copied!</span>}
+    <Tooltip
+      title="Link copied!"
+      open={ copied }
+      placement="left"
+      arrow
+    >
       <IconButton aria-label="share" onClick={ clickShare }>
         <img
           src={ shareIcon }
@@ -33,7 +37,7 @@ function ShareButton() {
           data-testid="share-btn"
         />
       </IconButton>
-    </>
+    </Tooltip>
   );
 }
 

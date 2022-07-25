@@ -15,7 +15,7 @@ function BackButton() {
     <Fab
       aria-label="back"
       onClick={ handleBackButton }
-      sx={ { position: 'absolute', left: 0, top: 8 } }
+      sx={ { position: 'absolute', left: 5, top: 13 } }
     >
       <ArrowBackIcon />
     </Fab>

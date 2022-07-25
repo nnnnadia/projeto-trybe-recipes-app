@@ -1,54 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Container, Typography } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import {
-  readStorageUserData,
-  clearLocalStorage,
-} from '../services/userLocalStorage';
+import { readStorageUserData } from '../services/userLocalStorage';
+import { ProfileMenu } from '../components/ProfileComponents';
 
 function Profile() {
   const [email, setEmail] = useState('');
-
-  const history = useHistory();
 
   useEffect(() => {
     setEmail(readStorageUserData().email);
   }, []);
 
-  const handlePush = (pathName) => {
-    if (pathName === '/') {
-      clearLocalStorage();
-    }
-
-    history.push(pathName);
-  };
-
   return (
     <div>
       <Header pageTitle="Profile" showSearchIcon={ false } />
-      <h4 data-testid="profile-email">{email}</h4>
-      <button
-        type="button"
-        data-testid="profile-done-btn"
-        onClick={ () => handlePush('/done-recipes') }
-      >
-        Done Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        onClick={ () => handlePush('/favorite-recipes') }
-      >
-        Favorite Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-logout-btn"
-        onClick={ () => handlePush('/') }
-      >
-        Logout
-      </button>
+      <Container fixed>
+        <Typography variant="overline" data-testid="profile-email">{email}</Typography>
+        <ProfileMenu />
+      </Container>
       <Footer />
     </div>
   );

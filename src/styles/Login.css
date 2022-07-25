@@ -2,7 +2,7 @@
   background-color: #d33e3e;
   color: #ffe6d7;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   font-family: Condiment , cursive;
   height: 100vh;
   justify-content: center;

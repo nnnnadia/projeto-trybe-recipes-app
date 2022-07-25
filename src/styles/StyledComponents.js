@@ -1,14 +1,10 @@
-import { Typography, styled, Grid, ToggleButtonGroup } from '@mui/material';
+import { Typography, styled, ToggleButtonGroup } from '@mui/material';
 
 export const HeaderTitle = styled(Typography)`
   font-family: monospace;
   font-weight: 700;
   letter-spacing: .3rem;
   text-transform: uppercase;
-`;
-
-export const CategoriesOptionsGrid = styled(Grid)`
-  margin: 5px auto;
 `;
 
 export const FixedFooter = styled('footer')`
@@ -20,4 +16,8 @@ export const FixedFooter = styled('footer')`
 
 export const ToggleButtonGroupPadded = styled(ToggleButtonGroup)`
   padding: 10px;
+`;
+
+export const AppTitle = styled(Typography)`
+  font-family: 'Spline Sans Mono', monospace;
 `;

@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
@@ -26,21 +27,23 @@ function Recipes() {
   };
 
   return (
-    <div>
+    <>
       <CategoriesOptions />
-      {dataToShow()
-        .slice(0, MAX_ITEMS)
-        .map((recipe, index) => (
-          <CardRecipe
-            key={ recipe.idMeal || recipe.idDrink }
-            image={ recipe.strMealThumb || recipe.strDrinkThumb }
-            title={ recipe.strMeal || recipe.strDrink }
-            index={ index }
-            id={ recipe.idMeal || recipe.idDrink }
-            recomendation={ false }
-          />
-        ))}
-    </div>
+      <Box sx={ { width: 345 } }>
+        {dataToShow()
+          .slice(0, MAX_ITEMS)
+          .map((recipe, index) => (
+            <CardRecipe
+              key={ recipe.idMeal || recipe.idDrink }
+              image={ recipe.strMealThumb || recipe.strDrinkThumb }
+              title={ recipe.strMeal || recipe.strDrink }
+              index={ index }
+              id={ recipe.idMeal || recipe.idDrink }
+              recomendation={ false }
+            />
+          ))}
+      </Box>
+    </>
   );
 }
 

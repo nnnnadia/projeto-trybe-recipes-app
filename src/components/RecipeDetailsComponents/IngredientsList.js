@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory  } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import DetailsContext from '../../context/DetailsContext';
+import '../../styles/IngredientsList.css';
 
 function IngredientsList() {
   const {
     details,
-    inProgress,
     indexIngredients,
     setIndexIngredients,
   } = useContext(DetailsContext);

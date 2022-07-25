@@ -1,24 +1,30 @@
-import { Button, ButtonGroup } from '@mui/material';
-import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import {
+  Box,
+  Drawer,
+  Fab,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import RecipesContext from '../context/RecipesContext';
-import { CategoriesOptionsGrid } from '../styles/StyledComponents';
 
 function CategoriesOptions() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const {
     categoriesFood,
     categoriesDrink,
     filterCategory,
     setFilterCategory,
     setSearch,
+    isFood,
   } = useContext(RecipesContext);
 
-  const history = useHistory();
-
-  const MAX_ITEMS = 5;
-
   const categoriesToShow = () => {
-    if (history.location.pathname === '/foods') {
+    if (isFood) {
       return categoriesFood;
     }
     return categoriesDrink;
@@ -34,38 +40,62 @@ function CategoriesOptions() {
         option: 'ingredients',
       });
     }
+    setDrawerOpen(false);
   };
 
   const showAll = () => {
     setFilterCategory('All');
+    setDrawerOpen(false);
   };
 
-  return (
-    <ButtonGroup variant="text" aria-label="text button group">
-      <CategoriesOptionsGrid container justifyContent="center" wrap="wrap">
-        {categoriesToShow()
-          .slice(0, MAX_ITEMS)
-          .map(({ strCategory }) => (
-            <Button
-              size="small"
-              key={ strCategory }
-              data-testid={ `${strCategory}-category-filter` }
-              type="button"
-              onClick={ () => changeCategoryToogle(strCategory) }
-            >
-              {strCategory}
-            </Button>
-          ))}
-        <Button
-          size="small"
-          type="button"
-          data-testid="All-category-filter"
+  const getCategoriesList = () => (
+    <List>
+      {categoriesToShow().map(({ strCategory }, index) => (
+        <ListItem
+          disablePadding
+          key={ index }
+          data-testid={ `${strCategory}-category-filter` }
+        >
+          <ListItemButton
+            onClick={ () => changeCategoryToogle(strCategory) }
+          >
+            <ListItemText primary={ strCategory } />
+          </ListItemButton>
+        </ListItem>
+      ))}
+      <ListItem
+        disablePadding
+        data-testid="All-category-filter"
+      >
+        <ListItemButton
           onClick={ showAll }
         >
-          All
-        </Button>
-      </CategoriesOptionsGrid>
-    </ButtonGroup>
+          <ListItemText primary="All" />
+        </ListItemButton>
+      </ListItem>
+    </List>);
+
+  return (
+    <>
+      <Fab
+        sx={ { mt: 2, mb: 2 } }
+        variant="extended"
+        color="secondary"
+        onClick={ () => setDrawerOpen(true) }
+      >
+        <MenuIcon sx={ { mr: 1 } } />
+        Categories
+      </Fab>
+      <Drawer
+        anchor="left"
+        open={ drawerOpen }
+        onClose={ () => setDrawerOpen(false) }
+      >
+        <Box>
+          {getCategoriesList()}
+        </Box>
+      </Drawer>
+    </>
   );
 }
 

@@ -32,7 +32,7 @@ function DoneRecipes() {
 
   return (
     <>
-      <Header pageTitle="Done Recipes" showSearchIcon={ false } />
+      <Header pageTitle="Done" showSearchIcon={ false } />
       <Stack
         alignItems="center"
       >

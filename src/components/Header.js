@@ -25,7 +25,7 @@ function Header({ pageTitle, showSearchIcon }) {
         <Grid
           container
           direction="row"
-          justifyContent="space-around"
+          justifyContent="space-between"
           alignItems="center"
           padding={ 1 }
         >

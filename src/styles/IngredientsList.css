@@ -1,0 +1,7 @@
+.Mui-selected span {
+  text-decoration: line-through;
+}
+
+.Mui-selected span:hover {
+  text-decoration: line-through;
+}

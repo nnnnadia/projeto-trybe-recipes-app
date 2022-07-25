@@ -47,7 +47,7 @@ function FavoriteRecipes() {
 
   return (
     <div>
-      <Header pageTitle="Favorite Recipes" showSearchIcon={ false } />
+      <Header pageTitle="Favorites" showSearchIcon={ false } />
       <Stack
         alignItems="center"
       >

@@ -29,7 +29,7 @@ function RecipeDetails() {
 
   return (
     <>
-      <Card sx={ { maxWidth: 345, mt: 1 } }>
+      <Card sx={ { maxWidth: 345, mt: 1, position: 'relative' } }>
         <CardMedia
           component="img"
           height="240"

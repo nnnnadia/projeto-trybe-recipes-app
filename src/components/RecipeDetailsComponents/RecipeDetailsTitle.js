@@ -4,6 +4,7 @@ import { CardActions, CardContent, Stack, Typography } from '@mui/material';
 import ShareButton from './ShareButton';
 import FavoriteButton from './FavoriteButton';
 import DetailsContext from '../../context/DetailsContext';
+import BackButton from './BackButton';
 
 function RecipeDetailsTitle() {
   const { details } = useContext(DetailsContext);
@@ -20,6 +21,7 @@ function RecipeDetailsTitle() {
       <CardActions>
         <ShareButton />
         <FavoriteButton />
+        <BackButton />
       </CardActions>
     </Stack>
   );

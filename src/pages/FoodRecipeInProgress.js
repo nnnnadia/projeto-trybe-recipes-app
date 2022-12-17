@@ -1,5 +1,5 @@
-import React from 'react';
 import { Grid } from '@mui/material';
+import React from 'react';
 import RecipeInProgress from '../components/RecipeInProgress';
 import DetailsProvider from '../context/DetailsProvider';
 

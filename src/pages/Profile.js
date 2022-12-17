@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { readStorageUserData } from '../services/userLocalStorage';
@@ -13,14 +13,18 @@ function Profile() {
   }, []);
 
   return (
-    <div>
+    <Container maxWidth="xs">
       <Header pageTitle="Profile" showSearchIcon={ false } />
-      <Container fixed>
+      <Grid
+        container
+        justifyContent="center"
+        sx={ { marginTop: '15px' } }
+      >
         <Typography variant="overline" data-testid="profile-email">{email}</Typography>
         <ProfileMenu />
-      </Container>
-      <Footer />
-    </div>
+        <Footer />
+      </Grid>
+    </Container>
   );
 }
 

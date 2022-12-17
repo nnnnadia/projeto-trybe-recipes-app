@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, Container, Stack } from '@mui/material';
 import Header from '../components/Header';
 import {
   readStorageFavoriteRecipes,
@@ -46,7 +46,7 @@ function FavoriteRecipes() {
   };
 
   return (
-    <div>
+    <Container maxWidth="xs">
       <Header pageTitle="Favorites" showSearchIcon={ false } />
       <Stack
         alignItems="center"
@@ -64,7 +64,7 @@ function FavoriteRecipes() {
           ))}
         </Box>
       </Stack>
-    </div>
+    </Container>
   );
 }
 

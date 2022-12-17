@@ -1,12 +1,12 @@
 import React from 'react';
-import { Grid } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Recipes from '../components/Recipes';
 
 function Foods() {
   return (
-    <div>
+    <Container maxWidth="xs">
       <Header pageTitle="Foods" showSearchIcon />
       <Grid
         container
@@ -15,7 +15,7 @@ function Foods() {
         <Recipes />
         <Footer />
       </Grid>
-    </div>
+    </Container>
   );
 }
 

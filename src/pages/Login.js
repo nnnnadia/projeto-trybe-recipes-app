@@ -32,7 +32,7 @@ function Login() {
   };
 
   return (
-    <Container fixed>
+    <Container fixed maxWidth="xs">
       <Box>
         <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-chef-professions-woman-diversity-flaticons-lineal-color-flat-icons.png" alt="logo" />
         <AppTitle

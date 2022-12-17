@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, Container, Stack } from '@mui/material';
 import Header from '../components/Header';
 import { SavedRecipesFilters, CardRecipeDone } from '../components/ProfileComponents';
 import { readStorageDoneRecipes } from '../services/recipesLocalStorage';
@@ -31,7 +31,7 @@ function DoneRecipes() {
   };
 
   return (
-    <>
+    <Container maxWidth="xs">
       <Header pageTitle="Done" showSearchIcon={ false } />
       <Stack
         alignItems="center"
@@ -43,7 +43,7 @@ function DoneRecipes() {
           ))}
         </Box>
       </Stack>
-    </>
+    </Container>
   );
 }
 

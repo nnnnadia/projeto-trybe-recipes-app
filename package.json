@@ -12,6 +12,7 @@
     "@mui/material": "^5.9.1",
     "bootstrap": "^4.5.3",
     "clipboard-copy": "^4.0.1",
+    "gh-pages": "^4.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.4.0",
@@ -19,7 +20,10 @@
     "react-router-dom": "^5.3.3",
     "react-scripts": "^5.0.1"
   },
+  "homepage": "https://nnnnadia.github.io/projeto-trybe-recipes-app",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b gh-pages -d build",
     "cy": "cypress run",
     "cy:open": "cypress open",
     "start": "react-scripts start",

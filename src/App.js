@@ -19,7 +19,7 @@ import theme from './styles/theme';
 function App() {
   return (
     <RecipesProvider>
-      <ThemeProvider theme={ theme } >
+      <ThemeProvider theme={ theme }>
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/foods" component={ Foods } />
